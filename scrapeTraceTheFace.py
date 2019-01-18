@@ -1,24 +1,21 @@
-# # import libraries
+# import libraries
 # from urllib.request import urlopen
 # from bs4 import BeautifulSoup
+import urllib.request, urllib.error
 
-# # specify the url
-# page_url = 'https://familylinks.icrc.org/europe/en/Pages/search-persons.aspx'
+# trace the face
+ttf_api = 'https://familylinks.icrc.org//europe/PersonImages/{i:07}.jpg'
 
-# # open page
-# page = urlopen(page_url)
+# s3 = boto3.resource('s3')
+# s3.meta.client.download_file('esuds-bucket', 'data.csv', '/tmp/data.csv')
 
-# # parse the html using beautiful soup 
-# soup = BeautifulSoup(page, 'html.parser')
+for i in range(7000, 7100):
+    url = ttf_api.format(i=i)
+    filename = url[-11:]
+    try:
+        urllib.request.urlretrieve(url, filename)
+        print('downloaded ' + filename)
+    except urllib.error.URLError:
+        print('can\'t find ' + filename)
 
-# img_divs = soup.find_all('div', attrs={'class': 'picture-result mobileFullWidth'})
-
-# for img_div in img_divs:
-# 	img_url = img_div.find('img')['src']
-# 	img_id = img_div.find('strong').text.strip()
-# 	print('url: https://familylinks.icrc.org/' + img_url)
-# 	print('id: ' + img_id)
-# 	# TODO: store in AWS
-
-import urllib.request 
-data = urllib.request.urlretrieve("https://familylinks.icrc.org//europe/PersonImages/0007181.watermarked.jpg", "0007181.jpg")
+# s3.meta.client.upload_file('/tmp/data.csv', 'esuds-bucket', 'data.csv')

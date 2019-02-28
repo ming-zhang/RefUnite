@@ -4,7 +4,15 @@ var router = express.Router();
 const path = require('path');
 const fs = require('fs');
 const fr = require('face-recognition');
+const AWS = require('aws-sdk');
 
+//configuring the AWS environment
+AWS.config.update({
+    accessKeyId: "AKIAIBIOLFSQYUBEA7XQ",
+    secretAccessKey: "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"
+  });
+
+var s3 = new AWS.S3();
 
 // For New Data Set ,Uncomment the code below to :
 // 1.Detect Faces from complete images
@@ -116,6 +124,20 @@ router.get('/',function(req, res){
 });
 
 router.get('/recognize',function(req,res){
+
+  // LOAD AWS IMAGES
+   var params = {
+    Bucket: "tracetheface", 
+    MaxKeys: 2 // Change to get all
+   };
+   s3.listObjects(params, function(err, data) {
+     if (err) {
+      console.log(err, err.stack); // an error occurred
+     } else {
+       console.log(data);           // successful response
+       //image url is https://s3.amazonaws.com/tracetheface/{id}.jpg
+     }
+   });
 
   const recognizer = fr.FaceRecognizer();
   /*

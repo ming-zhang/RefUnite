@@ -9,6 +9,7 @@
   "author": "Prajwal",
   "license": "ISC",
   "dependencies": {
+    "aws-sdk": "^2.411.0",
     "body-parser": "^1.18.2",
     "ejs": "^2.5.8",
     "express": "^4.16.3",

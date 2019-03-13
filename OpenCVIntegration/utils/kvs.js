@@ -48,6 +48,15 @@ var famFriends = vogels.define('famFriends', {
     }
 });
 
+var addUser = function(email, password, gender, age, origin, looking_for, img_ids) {
+    params = {};
+    params.email = email;
+    params.password = password;
+    params.gender = gender;
+    params.age = age;
+    
+};
+
 // post a status to the activities table
 // params contains all attributes for table
 // var postActivity = function(params, callback) {

@@ -8,16 +8,17 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <!-- Custom styles for this template-->
     <link href="/stylesheets/common.css" rel="stylesheet">
-    <link href="/stylesheets/login.css" rel="stylesheet">
+    <link href="/stylesheets/createaccount.css" rel="stylesheet">
   </head>
 
   <body>
     <div class="heading">RefUnite</div>
-    <div class="container login-container" ng-controller="loginController">
+    <div class="container login-container" ng-controller="createAccountController">
+      <input type="text" class="input username" placeholder="email@email" ng-model="emailaddr" />
       <input type="text" class="input username" placeholder="Username" ng-model="username" />
       <input type="password" class="input password" placeholder="Password" ng-model="password" />
-      <button type="button" class="login-button" name="Login" ng-click="verifyLogin()">Login</button>
-      <button type="button" class="login-button" name="CreateAccount" ng-click="createAccount()">Create Account</button>
+      <button type="button" class="login-button" name="Login" ng-click="nextToPersonalDetails()">Next</button>
+      <button type="button" class="login-button" name="Login" ng-click="backToLogin()">Sign in instead</button>
     </div>
 
     <!-- Include these before the end of body tag in every HTML file -->

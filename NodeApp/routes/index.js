@@ -41,6 +41,18 @@ router.get('/family', function(req, res) {
   res.sendFile(path.join(__dirname, '../', 'views', 'family.html'));
 });
 
+router.get('/createAccount', function(req, res) {
+  res.sendFile(path.join(__dirname, '../', 'views', 'createaccount.html'));
+});
+
+router.get('/createAccount_profileDetails', function(req, res) {
+  res.sendFile(path.join(__dirname, '../', 'views', 'createacct_profiledetails.html'));
+});
+
+router.get('/createAccount_photoUpload', function(req, res) {
+  res.sendFile(path.join(__dirname, '../', 'views', 'createacct_photoupload.html'));
+});
+
 
 
 // To add a new page, use the templete below

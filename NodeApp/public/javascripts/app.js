@@ -27,7 +27,62 @@ app.controller('loginController', function($scope, $http) {
     });
 
   };
+  $scope.createAccount = function() {
+    // To check in the console if the variables are correctly storing the input:
+    // console.log($scope.username, $scope.password);
+    window.location.href = "http://localhost:8081/createAccount"
+
+  };
 });
+app.controller('createAccountController', function($scope, $http) {
+  
+  $scope.backToLogin = function() {
+    // To check in the console if the variables are correctly storing the input:
+    // console.log($scope.username, $scope.password);
+    window.location.href = "http://localhost:8081/"
+
+  };
+  $scope.nextToPersonalDetails = function() {
+    // To check in the console if the variables are correctly storing the input:
+    // console.log($scope.username, $scope.password);
+    window.location.href = "http://localhost:8081/createAccount_profileDetails"
+
+  };
+});
+
+app.controller('createAccountProfileDetailsController', function($scope, $http) {
+  
+  $scope.backToCreateAccount = function() {
+    // To check in the console if the variables are correctly storing the input:
+    // console.log($scope.username, $scope.password);
+    window.location.href = "http://localhost:8081/createAccount"
+
+  };
+  $scope.nextToPhotoUpload = function() {
+    // To check in the console if the variables are correctly storing the input:
+    // console.log($scope.username, $scope.password);
+    window.location.href = "http://localhost:8081/createAccount_photoUpload"
+
+  };
+});
+
+app.controller('createAccountPhotoUploadController', function($scope, $http) {
+  
+  $scope.finish = function() {
+    // To check in the console if the variables are correctly storing the input:
+    // console.log($scope.username, $scope.password);
+    window.location.href = "http://localhost:8081/dashboard"
+
+  };
+  $scope.backToProfileDetails = function() {
+    // To check in the console if the variables are correctly storing the input:
+    // console.log($scope.username, $scope.password);
+    window.location.href = "http://localhost:8081/createAccount_profileDetails"
+
+  };
+});
+
+
 
 // Template for adding a controller
 /*

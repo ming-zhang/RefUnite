@@ -2,27 +2,87 @@ var kvs = require('../utils/kvs.js');
 var fs = require('fs');
 var async = require('async');
 
-// add an activity/status (e.g. someone liked something or someone posts something)
-// to the activities table, with all but keyword in params (generated automatically)
-// also adds activity keyword to the user's list of activities
-// returns activity object along with first_name and last_name of the user
-// var addActivity = function(params, callback) {
-// 	kvs.postActivity(params, function(err, data) {
-// 		if (err) {
-// 			console.log("ERROR: ", err);
-// 			callback(err, null);
-// 		} else {
-// 			var activity = data;
-// 			kvs.postActivityToUser(params.user, params.keyword, function(err, name) {
-// 				if (err) {
-// 					callback(err, null);
-// 				} else {
-// 					// add first and last name to results
-// 					activity.first_name = name.first_name;
-// 					activity.last_name = name.last_name;
-// 					callback(null, activity);
-// 				}
-// 			});
-// 		}
-// 	});
-// };
+// init kvs (create tables if needed)
+kvs.init(function(err, message) {
+	if (err) console.log(err);
+	else {
+		console.log("Initialized tables--ready to query the DB");
+	}
+});
+
+// add a user to the database with the given params (JSON document)
+var addUser = function(email, password, gender, age, origin, looking_for, img_ids, callback) {
+	var params = {
+		email: email,
+		password: password,
+		gender: gender,
+		age: age,
+		origin: origin,
+		looking_for: looking_for,
+		img_ids: img_ids
+	}
+	kvs.postUser(params, function(err, data) {
+		if (err) {
+			console.log(err);
+			callback(err, null);
+		} else {
+			console.log("SUCCESS: ", data);
+			callback(null, "OK");
+		}
+	});
+};
+
+// get the info in the form of a JSON object for a user
+var getUser = function(email, callback) {
+	kvs.retrieveUser(email, function(err, info) {
+		if (err) {
+			console.log(err);
+			callback(err, null);
+		} else {
+			console.log("got user " + info.email)
+			callback(null, info);
+		}
+	});
+}
+
+// add a famFriend to the database with the given params (JSON document)
+var addFamFriend = function(img_ids, relation, gender, age, origin) {
+	var params = {
+		img_ids: img_ids,
+		relation: relation,
+		gender: gender,
+		age: age,
+		origin: origin
+	}
+	kvs.postFamFriend(params, function(err, data) {
+		if (err) {
+			console.log(err);
+			callback(err, null);
+		} else {
+			console.log("SUCCESS: ", data);
+			callback(null, "OK");
+		}
+	});
+};
+
+// get the info in the form of a JSON object for a famFriend
+var getFamFriend = function(email, callback) {
+	kvs.retrieveFamFriend(email, function(err, info) {
+		if (err) {
+			console.log(err);
+			callback(err, null);
+		} else {
+			console.log("got fam friend ")
+			callback(null, info);
+		}
+	});
+}
+
+var database = {
+	addUser: addUser,
+	getUser: getUser,
+	getFamFriend: getFamFriend,
+	addFamFriend: addFamFriend
+}
+
+module.exports = database;

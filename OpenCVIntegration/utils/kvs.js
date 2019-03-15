@@ -37,11 +37,12 @@ var users = vogels.define('user', {
         age : joi.number(),
         origin : joi.string(),
         looking_for : vogels.types.stringSet(),
-        img_ids : vogels.types.stringSet()
+        img_ids : vogels.types.stringSet(),
+        fam_friend_ids : vogels.types.stringSet()
     }
 });
 
-// schema defintions
+famFriend schema
 var famFriends = vogels.define('famFriend', {
     hashKey : 'id',
     schema : {
@@ -50,7 +51,8 @@ var famFriends = vogels.define('famFriend', {
         relation: joi.string(),
         gender: joi.string(),
         age : joi.number(),
-        origin : joi.string()
+        origin : joi.string(),
+        user_email : joi.string(),
     }
 });
 
@@ -145,7 +147,8 @@ var retrieveUser = function(email, callback) {
                 age : attrs.age,
                 origin : attrs.origin,
                 looking_for : attrs.looking_for,
-                img_ids : attrs.img_ids
+                img_ids : attrs.img_ids,
+                fam_friend_ids : attrs.fam_friend_ids
             };
             callback(null, info);
         });
@@ -163,7 +166,7 @@ var postFamFriend = function(params, callback) {
                 console.log(err);
                 callback("Issue querying the database", null);
             } else {
-                callback(null, "OK");
+                callback(null, data.attrs);
             }
         });
     } else {
@@ -184,9 +187,26 @@ var retrieveFamFriend = function(id, callback) {
                 relation: attrs.relation,
                 gender: attrs.gender,
                 age : attrs.age,
-                origin : attrs.origin
+                origin : attrs.origin,
+                user_email : attrs.user_email
             };
             callback(null, info);
+        });
+    } else {
+        console.log("Tables not yet initialized--call init first!");
+        callback("Table not yet initialized--call init first!", null);
+    }
+};
+
+var addFamFriendToUser = function(user_email, fam_friend_id, callback) {
+    if (hasInit) {
+        users.update({keyword: user_email, fam_friend_ids : {$add : fam_friend_id}}, function(err, data) {
+            if (err) {
+                console.log(err);
+                callback(err, null);
+            } else {
+                callback(null, "OK");
+            }
         });
     } else {
         console.log("Tables not yet initialized--call init first!");

@@ -47,25 +47,34 @@ var getUser = function(email, callback) {
 }
 
 // add a famFriend to the database with the given params (JSON document)
-var addFamFriend = function(img_ids, relation, gender, age, origin, img_ids) {
+var addFamFriend = function(img_ids, relation, gender, age, origin, user_email, callback) {
 	var params = {
 		img_ids: img_ids,
 		relation: relation,
 		gender: gender,
 		age: age,
 		origin: origin,
-		img_ids: img_ids
+		user_email: user_email
 	}
 	kvs.postFamFriend(params, function(err, data) {
 		if (err) {
 			console.log(err);
 			callback(err, null);
 		} else {
-			console.log("SUCCESS: ", data);
-			callback(null, "OK");
+			// add famFriend id to User
+			kvs.addFamFriendToUser(user_email, data.fam_friend_id, function(err2, data2) {
+				if (err2) {
+					console.log(err2);
+					callback(err2, null);
+				} else {
+					console.log("Added famFriend to " + user_email);
+					callback(null, "OK");
+				}
+			});
 		}
 	});
 };
+
 
 // get the info in the form of a JSON object for a famFriend
 var getFamFriend = function(email, callback) {

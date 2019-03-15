@@ -42,7 +42,7 @@ var users = vogels.define('user', {
     }
 });
 
-famFriend schema
+// FamFriend schema
 var famFriends = vogels.define('famFriend', {
     hashKey : 'id',
     schema : {

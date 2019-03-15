@@ -62,7 +62,7 @@ var addFamFriend = function(img_ids, relation, gender, age, origin, user_email, 
 			callback(err, null);
 		} else {
 			// add famFriend id to User
-			kvs.addFamFriendToUser(user_email, data.fam_friend_id, function(err2, data2) {
+			kvs.addFamFriendToUser(user_email, data.id, function(err2, data2) {
 				if (err2) {
 					console.log(err2);
 					callback(err2, null);

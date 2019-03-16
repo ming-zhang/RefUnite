@@ -200,7 +200,7 @@ var retrieveFamFriend = function(id, callback) {
 
 var addFamFriendToUser = function(user_email, fam_friend_id, callback) {
     if (hasInit) {
-        users.update({keyword: user_email, fam_friend_ids : {$add : fam_friend_id}}, function(err, data) {
+        users.update({email: user_email, fam_friend_ids : {$add : fam_friend_id}}, function(err, data) {
             if (err) {
                 console.log(err);
                 callback(err, null);
@@ -214,12 +214,42 @@ var addFamFriendToUser = function(user_email, fam_friend_id, callback) {
     }
 };
 
+// check if a user exists and password matches
+var checkPassword = function(email, password, callback) {
+    // query the users table for the email and matching password and execute callback
+    var hashedPassword = SHA3(password).toString();
+    if (hasInit) {
+        // get attributes for user (except for password)
+        users.get(email, function(err, data) {
+            if (err) {
+                console.log(err);
+                callback(err, null);
+            } else {
+                var attrs = data.attrs;
+                if (attrs.password == password) {
+                    callback("Correct username + password", "OK");
+                } else {
+                    // invalid username/password
+                    callback("Password does not match", "WRONG");
+                }
+            }
+
+            
+        });
+    } else {
+        console.log("Tables not yet initialized--call init first!");
+        callback("Table not yet initialized--call init first!", null);
+    }
+};
+
 var kvs = {
     init: init,
     postUser: postUser,
     retrieveUser: retrieveUser,
     postFamFriend: postFamFriend,
-    retrieveFamFriend: retrieveFamFriend
+    retrieveFamFriend: retrieveFamFriend,
+    checkPassword: checkPassword,
+    addFamFriendToUser: addFamFriendToUser
 }
 
 module.exports = kvs;

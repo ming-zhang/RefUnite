@@ -46,6 +46,20 @@ var getUser = function(email, callback) {
 	});
 }
 
+// check the login parameters (username and password) to see if valid
+var checkLogin = function(email, password, callback) {
+	kvs.checkPassword(email, password, function(err, data) {
+		if (err) {
+			console.log("Error: ", err);
+			// callback with error
+			callback(err, null);
+		} else {
+			// callback with success
+			callback(null, "OK");
+		}
+	});
+};
+
 // add a famFriend to the database with the given params (JSON document)
 var addFamFriend = function(img_ids, relation, gender, age, origin, user_email, callback) {
 	var params = {
@@ -93,7 +107,8 @@ var database = {
 	addUser: addUser,
 	getUser: getUser,
 	getFamFriend: getFamFriend,
-	addFamFriend: addFamFriend
+	addFamFriend: addFamFriend,
+	checkLogin: checkLogin
 }
 
 module.exports = database;

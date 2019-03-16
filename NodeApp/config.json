@@ -1,4 +1,6 @@
-{
-	accessKeyId: "AKIAIBIOLFSQYUBEA7XQ",
-    secretAccessKey: "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"
+{ 
+	"accessKeyId": "AKIAIBIOLFSQYUBEA7XQ", 
+	"secretAccessKey": "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", 
+	"region": "us-east-1"
 }
+

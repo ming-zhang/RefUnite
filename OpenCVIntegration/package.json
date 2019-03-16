@@ -1,20 +1,23 @@
 {
-  "name": "face_recognition_nodejs",
+  "name": "RefUnite",
   "version": "1.0.0",
-  "description": "This is simple app that uses opencv4nodejs and face-recognition and requires xquartz for x11 on macOs, libpng,cmake.",
+  "description": "RefUnite",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Prajwal",
+  "author": "RefUnite",
   "license": "ISC",
   "dependencies": {
     "aws-sdk": "^2.411.0",
     "body-parser": "^1.18.2",
-    "ejs": "^2.5.8",
+    "ejs": "^2.6.1",
     "express": "^4.16.3",
     "face-recognition": "^0.8.1",
     "nodemon": "^1.17.2",
-    "socket.io": "^2.0.4"
+    "socket.io": "^2.0.4",
+    "async": "*",
+    "lru-cache": "*",
+    "vogels": "*"
   }
 }

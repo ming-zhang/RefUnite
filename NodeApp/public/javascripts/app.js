@@ -66,7 +66,7 @@ app.controller('createAccountProfileDetailsController', function($scope, $http) 
   };
 });
 
-app.controller('createAccountPhotoUploadController', function($scope, $http) {
+app.controller('createAccountPhotoUploadController', ['$scope', 'fileUpload', function($scope, fileUpload) {
   
   $scope.finish = function() {
     // To check in the console if the variables are correctly storing the input:
@@ -78,9 +78,52 @@ app.controller('createAccountPhotoUploadController', function($scope, $http) {
     // To check in the console if the variables are correctly storing the input:
     // console.log($scope.username, $scope.password);
     window.location.href = "http://localhost:8081/createAccount_profileDetails"
-
   };
-});
+
+  $scope.uploadFile = function(){
+    var file = $scope.myFile;
+    var uploadUrl = "/image-upload";
+    fileUpload.uploadFileToUrl(file, uploadUrl);
+  };
+
+}]);
+
+app.directive('fileModel', ['$parse', function ($parse) {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+            var model = $parse(attrs.fileModel);
+            var modelSetter = model.assign;
+            
+            element.bind('change', function(){
+                scope.$apply(function(){
+                    modelSetter(scope, element[0].files[0]);
+                });
+            });
+        }
+    };
+}]);
+
+app.service('fileUpload', ['$http', function ($http) {
+    this.uploadFileToUrl = function(file, uploadUrl){
+        var fd = new FormData();
+        fd.append('file', file);
+
+        console.log('Just appended file');
+        console.log(file);
+
+        $http.post(uploadUrl, fd, {
+            transformRequest: angular.identity,
+            headers: {'Content-Type': undefined}
+        })
+        .success(function(res){
+          console.log(res);
+        })
+        .error(function(res){
+          console.log(res);
+        });
+    }
+}]);
 
 
 

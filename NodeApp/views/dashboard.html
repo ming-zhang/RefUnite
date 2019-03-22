@@ -29,9 +29,10 @@
     </nav>
 
     <!-- User Content -->
-    <div class="container user-container">
+    <div class="container user-container" ng-controller="dashboardController">
       <div class="jumbotron">
         <div class="h5">Landing page. Shows top XX matches for each family/friends profile created.</div>
+        <h3 ng-bind="sessionUsername">{{ sessionUsername }}</h3>
         <!-- Display the users -->
       </div>
     </div>

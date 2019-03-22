@@ -95,7 +95,7 @@ router.post('/checklogin', function(req, res) {
       //res.redirect('/');
       //res.sendFile(path.join(__dirname, '../', 'views', 'login.html'));
     } else {
-      //req.session.username = username;
+      req.session.username = username;
       res.redirect('/dashboard');
       //res.sendFile(path.join(__dirname, '../', 'views', 'dashboard.html'));
     }

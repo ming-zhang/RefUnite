@@ -89,6 +89,19 @@ app.controller('createAccountPhotoUploadController', function($scope, $http) {
   };
 });
 
+app.controller('dashboardController', function($scope, $http) {
+
+  $scope.sessionUsername = "null";
+
+  $scope.getSessionUsername = function() {
+    app.get('/dashboard', (req, res, next) => {
+      console.log("getting the session username");
+      $scope.sessionUsername = req.session.username;
+    });
+  };
+  $scope.getSessionUsername();
+});
+
 
 
 // Template for adding a controller

@@ -10,7 +10,6 @@
 var vogels = require('vogels');
 var async = require('async');
 var joi = require('joi');
-var SHA3 = require("crypto-js/sha3");
 var AWS = vogels.AWS;
 AWS.config.loadFromPath('./config.json');
 var dynamodb = new AWS.DynamoDB();
@@ -65,7 +64,7 @@ var initIdxs = function(callback) {
                 if (err) console.log(err);
                 else {
                     commentIdx = data.Count + 1;
-                    console.log("COMMENT INDEX IS: " + commentIdx);
+                    console.log("USER INDEX IS: " + commentIdx);
                     parallelCb(null, {err: err, data: data});
                 }
             });
@@ -75,7 +74,7 @@ var initIdxs = function(callback) {
                 if (err) console.log(err);
                 else {
                     activityIdx = data.Count + 1;
-                    console.log("ACTIVITY INDEX IS: " + activityIdx);
+                    console.log("FAMFRIEND INDEX IS: " + activityIdx);
                     parallelCb(null, {err: err, data: data});
                 }
             });

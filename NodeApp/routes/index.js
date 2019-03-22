@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var path = require('path');
+var db = require('../utils/dynamo_functions');
 
 // Connect string to MySQL
 var mysql = require('mysql');

@@ -62,16 +62,70 @@ router.get('/routeName', function(req, res) {
   res.sendFile(path.join(__dirname, '../', 'views', 'fileName.html'));
 });
 */
+/*var checkLogin = function(req, res) {
+  var username = req.body.username;
+  var password = req.body.password;
+
+  db.checkLogin(username, password, function(err, data) {
+    if (err) {
+      res.redirect('/');
+    } else if (data) {
+      req.session.username = username;
+      res.redirect('/dashboard.html');
+    } else {
+      res.redirect('/');
+    }
+  });
+
+};*/
+
+
+//router.post('/checklogin', router.checkLogin);
+router.post('/checklogin', function(req, res) {
+  console.log("IN ROUTER.POST.checklogin");
+  var username = req.body.username;
+  var password = req.body.password;
+
+  db.checkLogin(username, password, function(err, data) {
+    if (err) {
+      //res.redirect('/');
+      //res.sendFile(path.join(__dirname, '../', 'views', 'login.html'));
+    } else if (data) {
+      //req.session.username = username;
+      //res.redirect('/dashboard.html');
+      //res.sendFile(path.join(__dirname, '../', 'views', 'dashboard.html'));
+    } else {
+      //res.redirect('/');
+      //res.sendFile(path.join(__dirname, '../', 'views', 'login.html'));
+    }
+  });
+  console.log(loginResult);
+
+  
+});
 
 // Login uses POST request
-router.post('/login', function(req, res) {
+/*router.post('/login', function(req, res) {
   // use console.log() as print() in case you want to debug, example below:
   // console.log(req.body); will show the print result in your terminal
 
   // req.body contains the json data sent from the loginController
   // e.g. to get username, use req.body.username
+  console.log("IN ROUTER.POST");
+  db.checkLogin(req.body.loginUsername, req.body.loginPassword, function(e, n) {
+    if (e == null) {
+      console.log("TOTALLY FINE");
+    } else {
+      console.log("THERES AN ERROR");
+    }
+  });
+  console.log(loginResult);
 
-  var query = "INSERT INTO carlsonk.User(username, password) VALUES ( '" + req.body.username + "', '" + req.body.password + "') ON DUPLICATE KEY UPDATE password = '" + req.body.password + "';"; /* Write your query here and uncomment line 21 in javascripts/app.js*/
+  
+});*/
+
+
+/*var query = "INSERT INTO carlsonk.User(username, password) VALUES ( '" + req.body.username + "', '" + req.body.password + "') ON DUPLICATE KEY UPDATE password = '" + req.body.password + "';"; // Write your query here and uncomment line 21 in javascripts/app.js
   connection.query(query, function(err, rows, fields) {
     console.log("rows", rows);
     console.log("fields", fields);
@@ -81,8 +135,7 @@ router.post('/login', function(req, res) {
         result: 'success'
       });
     }
-  });
-});
+  });*/
 
 // template for GET requests
 /*

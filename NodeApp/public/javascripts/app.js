@@ -4,14 +4,17 @@ app.controller('loginController', function($scope, $http) {
     // To check in the console if the variables are correctly storing the input:
     // console.log($scope.username, $scope.password);
 
+
     var request = $http({
-      url: '/login',
+      url: '/checklogin',
       method: "POST",
       data: {
         'username': $scope.username,
         'password': $scope.password
       }
     })
+
+    /*
 
     request.success(function(response) {
       // success
@@ -24,7 +27,7 @@ app.controller('loginController', function($scope, $http) {
     request.error(function(err) {
       // failed
       console.log("error: ", err);
-    });
+    });*/
 
   };
   $scope.createAccount = function() {

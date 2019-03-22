@@ -216,14 +216,17 @@ var addFamFriendToUser = function(user_email, fam_friend_id, callback) {
 // check if a user exists and password matches
 var checkPassword = function(email, password, callback) {
     // query the users table for the email and matching password and execute callback
-    var hashedPassword = SHA3(password).toString();
+    //var hashedPassword = SHA3(password).toString();
     if (hasInit) {
         // get attributes for user (except for password)
         users.get(email, function(err, data) {
             if (err) {
                 console.log(err);
                 callback(err, null);
+            } else if (data === null) {
+                callback("Email does not exist");
             } else {
+                console.log("DATA: " + data);
                 var attrs = data.attrs;
                 if (attrs.password == password) {
                     callback("Correct username + password", "OK");

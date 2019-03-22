@@ -50,11 +50,12 @@ var getUser = function(email, callback) {
 var checkLogin = function(email, password, callback) {
 	kvs.checkPassword(email, password, function(err, data) {
 		if (err) {
-			console.log("Error: ", err);
+			console.log("IT'S NOT FINE Error: ", err);
 			// callback with error
 			callback(err, null);
 		} else {
 			// callback with success
+			console.log("IT'S FINE");
 			callback(null, "OK");
 		}
 	});

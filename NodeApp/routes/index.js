@@ -4,7 +4,7 @@ var path = require('path');
 var formidable = require('formidable');
 var s3Upload = require('../utils/s3_functions');
 
-var s3SingleUpload = s3Upload.single('image')
+// var s3SingleUpload = s3Upload.single('image')
 
 // Connect string to MySQL
 var mysql = require('mysql');

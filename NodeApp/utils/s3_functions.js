@@ -1,6 +1,8 @@
 const aws = require('aws-sdk');
 const multer = require('multer');
 const multerS3 = require('multer-s3');
+var fs = require('fs');
+var https = require('https');
 
 aws.config.update({
   accessKeyId: "AKIAIBIOLFSQYUBEA7XQ",
@@ -35,4 +37,21 @@ const upload = multer({
   })
 });
 
-module.exports = upload;
+const testImages = () => {
+  var params = {Bucket: 'tracetheface'};
+  s3.listObjects(params, function(err, data){
+    var bucketContents = data.Contents;
+      for (var i = 0; i < bucketContents.length; i++){
+        var urlParams = {Bucket: 'tracetheface', Key: bucketContents[i].Key};
+          s3.getSignedUrl('getObject',urlParams, function(err, url){
+            console.log('the url of the image is', url);
+            // Save image to folder
+
+          });
+      }
+  });
+}
+
+module.exports = {upload: upload,
+                  getImages: testImages
+                 };

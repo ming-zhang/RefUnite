@@ -220,23 +220,18 @@ var checkPassword = function(email, password, callback) {
     if (hasInit) {
         // get attributes for user (except for password)
         users.get(email, function(err, data) {
-            if (err) {
-                console.log(err);
-                callback(err, null);
-            } else if (data === null) {
-                callback("Email does not exist");
+            if (err || !data) {
+                console.log("Log in is not going well in kvs");
+                if (err) console.log(err);
             } else {
-                console.log("DATA: " + data);
                 var attrs = data.attrs;
-                if (attrs.password == password) {
-                    callback("Correct username + password", "OK");
-                } else {
-                    // invalid username/password
-                    callback("Password does not match", "WRONG");
+                console.log("ATTRS:");
+                console.log(attrs);
+                if (attrs.password != password) {
+                    return callback("Password does not match", "WRONG");
                 }
             }
-
-            
+            callback(err, data);
         });
     } else {
         console.log("Tables not yet initialized--call init first!");

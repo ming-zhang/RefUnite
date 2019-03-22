@@ -85,23 +85,22 @@ router.post('/checklogin', function(req, res) {
   console.log("IN ROUTER.POST.checklogin");
   var username = req.body.username;
   var password = req.body.password;
-
+  // res.send("Trying to log in");
+  console.log("About to check log in");
+  var loginResult = "INCOMPLETE";
   db.checkLogin(username, password, function(err, data) {
-    if (err) {
+    if (err || !data) {
+      console.log('This login is not going well');
+      if (err) console.log(err);
       //res.redirect('/');
       //res.sendFile(path.join(__dirname, '../', 'views', 'login.html'));
-    } else if (data) {
-      //req.session.username = username;
-      //res.redirect('/dashboard.html');
-      //res.sendFile(path.join(__dirname, '../', 'views', 'dashboard.html'));
     } else {
-      //res.redirect('/');
-      //res.sendFile(path.join(__dirname, '../', 'views', 'login.html'));
+      //req.session.username = username;
+      res.redirect('/dashboard');
+      //res.sendFile(path.join(__dirname, '../', 'views', 'dashboard.html'));
     }
   });
-  console.log(loginResult);
 
-  
 });
 
 // Login uses POST request

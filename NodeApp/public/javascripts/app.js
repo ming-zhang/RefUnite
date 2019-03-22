@@ -4,18 +4,22 @@ app.controller('loginController', function($scope, $http) {
     // To check in the console if the variables are correctly storing the input:
     // console.log($scope.username, $scope.password);
 
-
-    var request = $http({
+    $http({
       url: '/checklogin',
       method: "POST",
       data: {
         'username': $scope.username,
         'password': $scope.password
       }
-    })
+    }).success(function(response) {
+      console.log('Success callback in app js');
+      window.location.href = '/dashboard';
+    }).error(function(response) {
+      console.log('Error callback in app js');
+      console.log(response);
+    });
 
     /*
-
     request.success(function(response) {
       // success
       console.log(response);

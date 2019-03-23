@@ -94,11 +94,20 @@ app.controller('dashboardController', function($scope, $http) {
   $scope.sessionUsername = "null";
 
   $scope.getSessionUsername = function() {
-    app.get('/dashboard', (req, res, next) => {
+    console.log("IN GETSESSIONUSERNAME!");
+    $http({
+      url: '/dashboardSession',
+      method: "GET",
+    }).success(function(res) {
       console.log("getting the session username");
-      $scope.sessionUsername = req.session.username;
+      $scope.sessionUsername = res.username;
+      console.log("$scope.sessionUsername: " + $scope.sessionUsername);
+    }).error(function(res) {
+      console.log('Error callback in app js');
+      console.log(response);
     });
   };
+
   $scope.getSessionUsername();
 });
 

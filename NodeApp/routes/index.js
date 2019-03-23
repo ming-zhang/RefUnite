@@ -38,6 +38,7 @@ router.get('/profile', function(req, res) {
   res.sendFile(path.join(__dirname, '../', 'views', 'profile.html'));
 });
 
+
 router.get('/family', function(req, res) {
   res.sendFile(path.join(__dirname, '../', 'views', 'family.html'));
 });
@@ -102,6 +103,17 @@ router.post('/checklogin', function(req, res) {
   });
 
 });
+
+router.get('/dashboardSession', function(req, res) {
+  console.log("IN ROUTERGET DASHBOARDSESSION");
+  //res.username = req.session.username;
+  res.json({username: req.session.username});
+  //res.set('username', req.session.username);
+  //res.end();
+  console.log(req.session.username);
+  console.log(res.username);
+});
+
 
 // Login uses POST request
 /*router.post('/login', function(req, res) {

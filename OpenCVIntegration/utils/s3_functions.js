@@ -40,7 +40,7 @@ const upload = multer({
 });
 
 const testImages = () => {
-  var params = {Bucket: 'tracetheface'};
+  var params = {Bucket: 'tracethefacetest'};
   s3.listObjects(params, function(err, data){
     var bucketContents = data.Contents;
       for (var i = 0; i < bucketContents.length; i++){
@@ -48,22 +48,14 @@ const testImages = () => {
           s3.getSignedUrl('getObject',urlParams, function(err, url){
             console.log('the url of the image is', url);
             // Save image to folder
+            const uniqueId = url.substring(38,49); 
             var options = {
-              directory: './pictures/',
-              filename: 'tester.jpg'
+              directory: './pictures/testing',
+              filename: uniqueId 
             }
             console.log("Whats up"); 
             //Folder for training data when we have upload functionality working
             download(url, options, function(err){
-              console.log("We are inside"); 
-              const image = fr.loadImage('./pictures/tester.jpg');
-              const detector = fr.FaceDetector();
-              const targetSize = 150;
-              const faceImages = detector.detectFaces(image, targetSize);
-              //Save faceImages to pictures/faces/face_0.jpg ++
-              const uniqueId = url.substring(38,45); 
-              faceImages.forEach((img, i) => fr.saveImage(`./pictures/faces/${uniqueId}_${i}.png`,img));
-              fs.unlinkSync('./pictures/tester.jpg'); 
               if(err) throw err  
             })
           });

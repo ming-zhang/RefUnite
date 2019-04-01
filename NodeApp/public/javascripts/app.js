@@ -14,6 +14,10 @@ app.controller('loginController', function($scope, $http) {
     }).success(function(response) {
       console.log('Success callback in app js');
       window.location.href = '/dashboard';
+      
+      $scope.sessionUsername = response.username;
+      console.log("$scope.sessionUsername: " + $scope.sessionUsername);
+
     }).error(function(response) {
       console.log('Error callback in app js');
       console.log(response);
@@ -111,7 +115,24 @@ app.controller('dashboardController', function($scope, $http) {
   $scope.getSessionUsername();
 });
 
+app.controller('logoutController', function($scope, $http) {
+  $scope.logoutDestroySession = function() {
+    console.log("IN logoutDestroySession");
+    $http({
+      url: '/logoutSession',
+      method: "GET",
+    }).success(function(res) {
+      console.log("logging out. removing the session username");
+      $scope.sessionUsername = res.username;
+      console.log("$scope.sessionUsername: " + $scope.sessionUsername);
+      window.location.href = '/';
+    }).error(function(res) {
+      console.log('Error callback in app js');
+      console.log(res);
+    });
+  };
 
+});
 
 // Template for adding a controller
 /*

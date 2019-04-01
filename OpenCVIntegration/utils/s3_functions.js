@@ -5,6 +5,8 @@ var fs = require('fs');
 var https = require('https');
 var download = require('download-file');
 const fr = require('face-recognition');
+const dynamo = require('dynamo_functions');
+
 
 aws.config.update({
   accessKeyId: "AKIAIBIOLFSQYUBEA7XQ",
@@ -63,6 +65,48 @@ const testImages = () => {
   });
 }
 
+const getTrainingImages = (famFriendId) => {
+  var params = {Bucket: 'refunite-famfriend-images'};
+  // Get img_ids from dynamo for famfriend
+  dynamo.getFamFriend(famFriendId, function(err, info) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("got fam friend ")
+      var ids = info.img_ids
+
+      // Download each img into /pictures/faces folder
+  
+      for (id in ids) {
+          var url = "https://s3.amazonaws.com/refunite-famfriend-images/" + id + ".jpg"
+          var options = {
+                  directory: './pictures/faces',
+                  filename: id 
+                }
+        console.log(id);
+         download(url, options, function(err){
+              if(err) throw err  
+            })
+
+      }
+
+
+
+    }
+  });
+  
+
+  
+
+
+
+}
+
+
+
+
+
 module.exports = {upload: upload,
-                  getImages: testImages
+                  getImages: testImages,
+                  getTrainingImages: getTrainingImages
                  };

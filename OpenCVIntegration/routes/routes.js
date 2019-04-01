@@ -47,6 +47,9 @@ download(url, options, function(err){
 
 console.log("WE are after"); 
 
+// DOWNLOAD TRAINING DATA
+s3.getTrainingImages()
+
 //Folder for testing data- Trace The Face Database 
 s3.getImages(); 
 /*

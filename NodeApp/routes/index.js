@@ -2,9 +2,9 @@ var express = require('express');
 var router = express.Router();
 var path = require('path');
 var formidable = require('formidable');
-var s3Upload = require('../utils/s3_functions');
+var s3Upload = require('../utils/s3_functions').upload;
 
-// var s3SingleUpload = s3Upload.single('image')
+var s3SingleUpload = s3Upload.single('user-photo');
 
 // Connect string to MySQL
 var mysql = require('mysql');
@@ -87,31 +87,16 @@ router.post('/login', function(req, res) {
   });
 });
 
-/* S3 Route */
-router.post('/image-upload', function(req, res) {
-
-  console.log('req looks like this');
-  console.log(req);
-  console.log('req.body looks like this');
-  console.log(req.body);
-
-
-  // var form = new formidable.IncomingForm();
-  // form.parse(req, function (err, fields, files) {
-  //   // console.log('Server side saw req');
-  //   // console.log(req);
-  //   console.log('Server side saw image');
-  //   console.log(files.file);
-
-  //   s3SingleUpload(files.file, res, function(err, some) {
-  //     if (err) {
-  //       return res.status(422).send({errors: [{title: 'Image Upload Error', detail: err.message}] });
-  //     }
-  //   });
-
-
-  // });
-  // return res.json({'imageUrl': req.file.location});
+// /* S3 Route */
+router.post('/image-upload', s3SingleUpload, (req, res, next) => {
+  // const file = req.file
+  // if (!file) {
+  //   const error = new Error('Please upload a file')
+  //   error.httpStatusCode = 400
+  //   return next(error)
+  // }
+  //   res.send(file)
+  
 });
 
 // template for GET requests

@@ -14,8 +14,6 @@ const s3 = new aws.S3();
 
 const fileFilter = (req, file, cb) => {
   if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
-    console.log('file filter got this file')
-    console.log(file)
     cb(null, true);
   } else {
     cb(new Error('Invalid file type, only JPEG and PNG is allowed!'), false);
@@ -32,7 +30,7 @@ const upload = multer({
       cb(null, {});
     }, */
     key: function (req, file, cb) {
-      cb(null, Date.now().toString())
+      cb(null, file.originalname)
     }
   })
 });

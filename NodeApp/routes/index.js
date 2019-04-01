@@ -27,10 +27,18 @@ connection.connect(function(err) {
 
 /* GET home page. */
 router.get('/', function(req, res) {
-  res.sendFile(path.join(__dirname, '../', 'views', 'login.html'));
+  //res.sendFile(path.join(__dirname, '../', 'views', 'login.html'));
+  var options = {
+    headers: {
+        'Cache-Control': 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0'
+    }
+  };
+  res.sendFile(path.join(__dirname, '../', 'views', 'login.html'), options);
 });
 
 router.get('/dashboard', function(req, res) {
+  
+
   res.sendFile(path.join(__dirname, '../', 'views', 'dashboard.html'));
 });
 
@@ -99,13 +107,49 @@ router.post('/checklogin', function(req, res) {
       //res.redirect('/');
       //res.sendFile(path.join(__dirname, '../', 'views', 'login.html'));
     } else {
-      //req.session.username = username;
+      req.session.username = username;
       res.redirect('/dashboard');
       //res.sendFile(path.join(__dirname, '../', 'views', 'dashboard.html'));
     }
   });
 
 });
+
+router.get('/dashboardSession', function(req, res) {
+  console.log("IN ROUTERGET DASHBOARDSESSION");
+  //res.username = req.session.username;
+  res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
+
+  res.json({username: req.session.username});
+  //res.set('username', req.session.username);
+  //res.end();
+  console.log(req.session.username);
+  console.log(res.username);
+});
+
+router.get('/logoutSession', function(req, res) {
+  console.log("IN ROUTERGET logoutSession");
+  res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
+
+  //res.username = req.session.username;
+  //res.logout();
+  req.session.destroy(function(err){
+     if(err){
+        console.log(err);
+     }else{
+        //console.log(req.session.username);
+        //req.end();
+
+        res.redirect('/');
+        //res.sendFile(path.join(__dirname, '../', 'views', 'login.html'));
+     }
+  });
+  //res.set('username', req.session.username);
+  //res.end();
+  //console.log(req.session.username);
+  //console.log(res.username);
+});
+
 
 // Login uses POST request
 /*router.post('/login', function(req, res) {

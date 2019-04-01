@@ -14,6 +14,10 @@ app.controller('loginController', function($scope, $http) {
     }).success(function(response) {
       console.log('Success callback in app js');
       window.location.href = '/dashboard';
+      
+      $scope.sessionUsername = response.username;
+      console.log("$scope.sessionUsername: " + $scope.sessionUsername);
+
     }).error(function(response) {
       console.log('Error callback in app js');
       console.log(response);
@@ -128,7 +132,46 @@ app.service('fileUpload', ['$http', function ($http) {
     }
 }]);
 
+app.controller('dashboardController', function($scope, $http) {
 
+  $scope.sessionUsername = "null";
+
+  $scope.getSessionUsername = function() {
+    console.log("IN GETSESSIONUSERNAME!");
+    $http({
+      url: '/dashboardSession',
+      method: "GET",
+    }).success(function(res) {
+      console.log("getting the session username");
+      $scope.sessionUsername = res.username;
+      console.log("$scope.sessionUsername: " + $scope.sessionUsername);
+    }).error(function(res) {
+      console.log('Error callback in app js');
+      console.log(response);
+    });
+  };
+
+  $scope.getSessionUsername();
+});
+
+app.controller('logoutController', function($scope, $http) {
+  $scope.logoutDestroySession = function() {
+    console.log("IN logoutDestroySession");
+    $http({
+      url: '/logoutSession',
+      method: "GET",
+    }).success(function(res) {
+      console.log("logging out. removing the session username");
+      $scope.sessionUsername = res.username;
+      console.log("$scope.sessionUsername: " + $scope.sessionUsername);
+      window.location.href = '/';
+    }).error(function(res) {
+      console.log('Error callback in app js');
+      console.log(res);
+    });
+  };
+
+});
 
 // Template for adding a controller
 /*

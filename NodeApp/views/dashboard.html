@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<html ng-app="angularjsNodejsTutorial">
 <html lang="en">
 
   <head>
@@ -23,18 +24,23 @@
           <a class="nav-item nav-link active" href="/dashboard">Dashboard</a>
           <a class="nav-item nav-link" href="/profile">My Profile</a>
           <a class="nav-item nav-link" href="/family">Family & Friends</a>
-          <a class="nav-item nav-link" href="/">Logout</a>
+          <a class="nav-item nav-link" ng-controller="logoutController" ng-click="logoutDestroySession()">Logout</a>
         </div>
       </div>
     </nav>
 
     <!-- User Content -->
+    
     <div class="container user-container">
       <div class="jumbotron">
         <div class="h5">Landing page. Shows top XX matches for each family/friends profile created.</div>
+        <div ng-controller = "dashboardController">
+          <h3>{{ sessionUsername }}</h3>
+        </div>
         <!-- Display the users -->
       </div>
     </div>
+  
 
 
     <!-- Include these before the end of body tag in every HTML file -->

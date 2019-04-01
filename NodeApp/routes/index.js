@@ -2,6 +2,10 @@ var express = require('express');
 var router = express.Router();
 var path = require('path');
 var db = require('../utils/dynamo_functions');
+var formidable = require('formidable');
+var s3Upload = require('../utils/s3_functions').upload;
+
+var s3SingleUpload = s3Upload.single('user-photo');
 
 // Connect string to MySQL
 var mysql = require('mysql');
@@ -135,6 +139,18 @@ router.post('/checklogin', function(req, res) {
       });
     }
   });*/
+
+// /* S3 Route */
+router.post('/image-upload', s3SingleUpload, (req, res, next) => {
+  // const file = req.file
+  // if (!file) {
+  //   const error = new Error('Please upload a file')
+  //   error.httpStatusCode = 400
+  //   return next(error)
+  // }
+  //   res.send(file)
+  
+});
 
 // template for GET requests
 /*

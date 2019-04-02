@@ -47,7 +47,7 @@ var io  = require('socket.io')(server); //for Socket.io
 
       console.log(info.format);
 
-      if (base64Data) {//if data is not null
+      if(base64Data){//if data is not null
       require("fs").writeFile("./tmp/uploads/out.png", base64Data, 'base64', function(err) {//save image to out.png
         if(err){
           console.log(err);

@@ -1,4 +1,3 @@
-
 var express = require('express');
 var router = express.Router();
 var download = require('download-file');
@@ -21,13 +20,6 @@ Below Works Perfectly to Extract 150x150 faces from images and saves them to fac
 *///Manually change this path
 //console.log("Meow");  
 
-var url = 'https://s3.amazonaws.com/tracetheface/0000012.jpg'; 
-
-var options = {
-  directory: './pictures/',
-  filename: 'tester.jpg'
-}
-
 console.log("Hello"); 
 //Folder for training data when we have upload functionality working
 /*
@@ -48,7 +40,7 @@ download(url, options, function(err){
 console.log("WE are after"); 
 
 // DOWNLOAD TRAINING DATA
-s3.getTrainingImages()
+s3.getTrainingImages("1")
 
 //Folder for testing data- Trace The Face Database 
 s3.getImages(); 
@@ -69,51 +61,18 @@ Open Xquartz for below 3 lines to display mesh of faces
 We have 4-5 pictures for each character
 we use 4 to train and rest to test our training
 */
-const dataPath = path.resolve('./pictures/faces');
-//Our 'database' (add the back-end here)
 
-//ClassNames has to be changed to our uniqueIdentifiers for famFriends 
-const uniqueId = url.substring(38,45);
-const classNames = ['Linkin'];
-const allFiles = fs.readdirSync(dataPath);
-const imagesByClass = classNames.map(c =>
-   allFiles
-     .filter(f => f.includes(c))
-     .map(f => path.join(dataPath, f))
-     .map(fp => fr.loadImage(fp))
- );
- 
-//Maybe change later to 4 
- const numTrainingFaces = 4;
- const trainDataByClass = imagesByClass.map(imgs => imgs.slice(0, numTrainingFaces));
- const testDataByClass = imagesByClass.map(imgs => imgs.slice(numTrainingFaces));
-
-/*
-Train our recognizer
-*/
- const recognizer = fr.FaceRecognizer();
-
- trainDataByClass.forEach((faces, label) => {
-   const name = classNames[label];
-   recognizer.addFaces(faces, name);
- });
-
-/*
-Save Our Trained Data
-*/
- const modelState = recognizer.serialize();
-fs.writeFileSync('model.json', JSON.stringify(modelState));
 
 /*
 Load Our Previously Saved Train Data
 */
-// const modelState = require('../model.json');
-// recognizer.load(modelState);
+ //const modelState = require('../model.json');
+ //recognizer.load(modelState);
 
 
-/*
-Recognizing New Faces
-*/
+
+//Recognizing New Faces
+
 // const errors = classNames.map(_ => []);
 // testDataByClass.forEach((faces, label) => {
 //   const name = classNames[label];
@@ -177,18 +136,19 @@ router.get('/recognize',function(req,res){
   const faces = detector.getFacesFromLocations(image, faceRects, 150);
 
   if(faceRects.length){
-    const predict = recognizer.predictBest(faces[i],0.69);
-    if(predict.name == 'Linkin' && predict.distance > 0.69) { 
-    const win= new fr.ImageWindow();
-    win.setImage(image);
-    faceRects.forEach((rect,i)=>{
-      win.addOverlay(rect);
+      faceRects.forEach((rect,i)=>{
       const predict = recognizer.predictBest(faces[i],0.69);
+      if(predict.className == "1" && predict.distance <= 0.6 ) {
+        const win= new fr.ImageWindow();
+        win.setImage(image);
+        win.addOverlay(rect);
         win.addOverlay(rect, `${predict.className} (${predict.distance})`);
-       console.log(file); 
-       console.log(predict.distance); 
+        //console.log(file); 
+        console.log(predict.distance); 
+        console.log(predict.className); 
+      }
   });
-  }
+
     // fr.hitEnterToContinue();
   }
 
@@ -207,6 +167,5 @@ router.get('/recognize',function(req,res){
     });
   });
 });
-
 
 module.exports = router;

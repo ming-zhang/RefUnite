@@ -121,9 +121,9 @@
 
 // set up s3 connection
 var s3 = new AWS.S3({
-    accessKeyId: 'access-key',
-    secretAccessKey: 'secret-access-key',
-    region: 'eu-central-1'
+    accessKeyId: "AKIAIBIOLFSQYUBEA7XQ",
+  secretAccessKey: "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",
+  region: 'us-east-1'
 });
 
 // set custom FilePond file processing method
@@ -132,7 +132,7 @@ FilePond.setOptions({
         process: function(fieldName, file, metadata, load, error, progress, abort) {
             
             s3.upload({
-                Bucket: 'your-bucket-name',
+                Bucket: 'refunite-famfriend-images',
                 Key: Date.now() + '_' + file.name,
                 Body: file,
                 ContentType: file.type,

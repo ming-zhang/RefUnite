@@ -1,4 +1,5 @@
 var app = angular.module('angularjsNodejsTutorial', []);
+
 app.controller('loginController', function($scope, $http) {
   $scope.verifyLogin = function() {
     // To check in the console if the variables are correctly storing the input:
@@ -133,6 +134,9 @@ app.service('fileUpload', ['$http', function ($http) {
 }]);
 
 app.controller('dashboardController', function($scope, $http) {
+  $scope.disableTagButton = {
+    'visibility': 'hidden'
+  }; 
 
   $scope.sessionUsername = "null";
   $scope.getFamFriendIds = function() {
@@ -174,6 +178,12 @@ app.controller('dashboardController', function($scope, $http) {
     });
   };
 
+  $scope.setRecognizeVisibility = function() {
+    $scope.disableTagButton = {
+      'visibility': 'visible'
+    }; 
+  }
+
   $scope.getSessionUsername = function() {
     console.log("IN GETSESSIONUSERNAME!");
     $http({
@@ -211,6 +221,10 @@ app.controller('logoutController', function($scope, $http) {
   };
 
 });
+
+
+
+
 
 // Template for adding a controller
 /*

@@ -142,6 +142,19 @@ app.controller('dashboardController', function($scope, $http) {
       method: "GET",
     }).success(function(res) {
       console.log("Recognize working");
+      $scope.ids = res;
+      var uniqueImages = $scope.ids.filter(function(item, index){
+        return $scope.ids.indexOf(item) >= index;
+      });
+      $scope.ids = uniqueImages;
+      $scope.imageURLs = {};
+      for (i in $scope.ids) {
+        $scope.getImage = function() {
+          myurl = 'https://s3.amazonaws.com/tracethefacetest/' + $scope.ids[i] + '.jpg';
+          $scope.imageURLs[$scope.ids[i]] = myurl;
+        }
+        $scope.getImage();
+      }
     }).error(function(res) {
       console.log('Error callback in app js');
       console.log(response);

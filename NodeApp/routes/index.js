@@ -95,34 +95,33 @@ router.get('/recognize',function(req,res){
     console.error("Could not list the directory.", err);
     process.exit(1);
   }
-
+  var listOfSimilarIds = []; 
   files.forEach(function (file, index) {
     console.log(file); 
     // do stuff for each file
-  const image = fr.loadImage(photosinTesting + "/" + file); 
-  const detector = fr.FaceDetector();
-  const targetSize = 150;
-  const faceImage = detector.detectFaces(image, targetSize);
-  const faceRects  = detector.locateFaces(image).map(mmodRect => mmodRect.rect);
-  const faces = detector.getFacesFromLocations(image, faceRects, 150);
-  var listOfSimilarIds = []; 
-  if(faceRects.length){
-      faceRects.forEach((rect,i)=>{
-      const predict = recognizer.predictBest(faces[i],0.69);
-      if(predict.className == "1" && predict.distance <= 0.6) {
-        //const win= new fr.ImageWindow();
-        //win.setImage(image);
-        //win.addOverlay(rect);
-        //win.addOverlay(rect, `${predict.className} (${predict.distance})`);
-        //console.log(file); 
-        listOfSimilarIds.push(file.substring(0, file.length - 4)); 
-        console.log(predict.distance); 
-        console.log(predict.className); 
-      }
-  });
+    const image = fr.loadImage(photosinTesting + "/" + file); 
+    const detector = fr.FaceDetector();
+    const targetSize = 150;
+    const faceImage = detector.detectFaces(image, targetSize);
+    const faceRects  = detector.locateFaces(image).map(mmodRect => mmodRect.rect);
+    const faces = detector.getFacesFromLocations(image, faceRects, 150);
+    if(faceRects.length){
+        faceRects.forEach((rect,i)=>{
+        const predict = recognizer.predictBest(faces[i],0.69);
+          if(predict.className == "1" && predict.distance <= 0.6) {
+            //const win= new fr.ImageWindow();
+            //win.setImage(image);
+            //win.addOverlay(rect);
+            //win.addOverlay(rect, `${predict.className} (${predict.distance})`);
+            //console.log(file); 
+            listOfSimilarIds.push(file.substring(0, file.length - 4)); 
+            console.log(predict.distance); 
+            console.log(predict.className); 
+          }
+        });
+      // fr.hitEnterToContinue();
+    }
 
-    // fr.hitEnterToContinue();
-  }
 
   /*
   Send Output for one face to html page
@@ -136,7 +135,10 @@ router.get('/recognize',function(req,res){
     res.status(400).json({msg:'Could Not Detect Face, Please try another picture'});
   }
   */
-    });
+  });
+  //for each id in listOfSimilarIds, do a router.get? some sort of get request.
+  //then put these into a json response
+  res.json(listOfSimilarIds);
   });
 });
 

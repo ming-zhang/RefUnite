@@ -38,9 +38,18 @@
           <h3>{{ sessionUsername }}</h3>
           <button type="button"id="recognize" class="btn btn-success"ng-click="getRecognize()"style="width:100%;">
             <span class="navhead">Recognize</span>
-        </button>
+          </button>
+          <!-- Display the matches -->
+          <div class="grid">
+            <div ng-repeat="x in ids" class="grid-square" style="margin: 15px;">
+                <a target="_blank">
+                  <img  ng-src="{{ imageURLs[x] }}" style="width: 200px; height: 300px;"/>
+                </a>
+                <span class="caption" style="display: block; font-size: 10px"> {{ x }}</span>
+            </div>
+          </div>
         </div>
-        <!-- Display the users -->
+        
       </div>
     </div>
   

@@ -5,6 +5,13 @@ var db = require('../utils/dynamo_functions');
 var formidable = require('formidable');
 var s3Upload = require('../utils/s3_functions').upload;
 
+var download = require('download-file');
+var s3 = require('../utils/s3_functions'); 
+
+const path = require('path');
+const fs = require('fs');
+const fr = require('face-recognition');
+
 var s3SingleUpload = s3Upload.single('user-photo');
 
 // Connect string to MySQL
@@ -37,7 +44,12 @@ router.get('/', function(req, res) {
 });
 
 router.get('/dashboard', function(req, res) {
-  
+
+  // DOWNLOAD TRAINING DATA
+  s3.getTrainingImages("1")
+
+  //Folder for testing data- Trace The Face Database 
+  s3.getImages(); 
 
   res.sendFile(path.join(__dirname, '../', 'views', 'dashboard.html'));
 });
@@ -64,6 +76,68 @@ router.get('/createAccount_profileDetails', function(req, res) {
 
 router.get('/createAccount_photoUpload', function(req, res) {
   res.sendFile(path.join(__dirname, '../', 'views', 'createacct_photoupload.html'));
+});
+
+router.get('/recognize',function(req,res){
+
+  const recognizer = fr.FaceRecognizer();
+  /*
+  Load Our Previously Saved Train Data
+  */
+  const modelState = require('../model.json');
+  recognizer.load(modelState);
+
+  /*
+  Detect Face From Image
+  */
+ var photosinTesting = "./pictures/testing"
+ fs.readdir(photosinTesting, function (err, files) {
+  if (err) {
+    console.error("Could not list the directory.", err);
+    process.exit(1);
+  }
+
+  files.forEach(function (file, index) {
+    console.log(file); 
+    // do stuff for each file
+  const image = fr.loadImage(photosinTesting + "/" + file); 
+  const detector = fr.FaceDetector();
+  const targetSize = 150;
+  const faceImage = detector.detectFaces(image, targetSize);
+  const faceRects  = detector.locateFaces(image).map(mmodRect => mmodRect.rect);
+  const faces = detector.getFacesFromLocations(image, faceRects, 150);
+
+  if(faceRects.length){
+      faceRects.forEach((rect,i)=>{
+      const predict = recognizer.predictBest(faces[i],0.69);
+      if(predict.className == "1" && predict.distance <= 0.6 ) {
+        const win= new fr.ImageWindow();
+        win.setImage(image);
+        win.addOverlay(rect);
+        win.addOverlay(rect, `${predict.className} (${predict.distance})`);
+        //console.log(file); 
+        console.log(predict.distance); 
+        console.log(predict.className); 
+      }
+  });
+
+    // fr.hitEnterToContinue();
+  }
+
+  /*
+  Send Output for one face to html page
+  */
+ /*
+  if(faceImage.length){
+  const predictions=recognizer.predict(faceImage[0]);
+  res.send(predictions);
+  }
+  else{
+    res.status(400).json({msg:'Could Not Detect Face, Please try another picture'});
+  }
+  */
+    });
+  });
 });
 
 

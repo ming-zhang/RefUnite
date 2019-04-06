@@ -3,6 +3,10 @@ const multer = require('multer');
 const multerS3 = require('multer-s3');
 var fs = require('fs');
 var https = require('https');
+var download = require('download-file');
+const fr = require('face-recognition');
+const dynamo = require('./dynamo_functions');
+const path = require('path');
 
 aws.config.update({
   accessKeyId: "AKIAIBIOLFSQYUBEA7XQ",
@@ -36,20 +40,109 @@ const upload = multer({
 });
 
 const testImages = () => {
-  var params = {Bucket: 'tracetheface'};
+  var params = {Bucket: 'tracethefacetest'};
   s3.listObjects(params, function(err, data){
     var bucketContents = data.Contents;
       for (var i = 0; i < bucketContents.length; i++){
-        var urlParams = {Bucket: 'tracetheface', Key: bucketContents[i].Key};
+        var urlParams = {Bucket: 'tracethefacetest', Key: bucketContents[i].Key};
           s3.getSignedUrl('getObject',urlParams, function(err, url){
             console.log('the url of the image is', url);
             // Save image to folder
-
+            const startingIndex = url.lastIndexOf("/"); 
+            const endingIndex = url.lastIndexOf("."); 
+            const uniqueId = url.substring(startingIndex + 1, endingIndex); 
+            var options = {
+              directory: './pictures/testing',
+              filename: uniqueId + ".jpg"
+            }
+            console.log("Whats up"); 
+            //Folder for training data when we have upload functionality working
+            download(url, options, function(err){
+              if(err) throw err  
+            })
           });
       }
   });
 }
 
+const getTrainingImages = (famFriendId) => {
+  var params = {Bucket: 'refunite-famfriend-images'};
+  // Get img_ids from dynamo for famfriend
+  console.log("My name is Reeham"); 
+  dynamo.getFamFriend(famFriendId, function(err, info) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("got fam friend ")
+      var ids = info.img_ids
+
+      // Download each img into /pictures/faces folder
+      var flag = true; 
+      for (var i = 0; i < ids.length; i++) {
+          var url = "https://s3.amazonaws.com/refunite-famfriend-images/" + ids[i] + ".jpg"
+          console.log(url); 
+          var options = {
+                  directory: './pictures/faces',
+                  filename: famFriendId + "_" + i + ".jpg"
+                }
+        console.log(ids[i]);
+         download(url, options, function(err){
+              if(err) throw err
+              //const image = fr.loadImage('./pictures/faces/1_3.jpg');
+              //const detector = fr.FaceDetector();
+              //const targetSize = 150;
+              //const faceImages = detector.detectFaces(image, targetSize);
+              //Save faceImages to pictures/faces/face_0.jpg ++
+              //const uniqueId = url.substring(38,45); 
+              //faceImages.forEach((img, i) => fr.saveImage(`./pictures/faces/1_3.png`,img));  
+              if(i == ids.length - 1 && flag) {
+                flag = false; 
+                const dataPath = path.resolve('./pictures/faces');
+                //Our 'database' (add the back-end here)
+      
+              //ClassNames has to be changed to our uniqueIdentifiers for famFriends 
+              //const uniqueId = url.substring(38,45);
+                  const classNames = ['1'];
+                  const allFiles = fs.readdirSync(dataPath);
+                  const imagesByClass = classNames.map(c =>
+                    allFiles
+                      .filter(f => f.includes(c))
+                      .map(f => path.join(dataPath, f))
+                      .map(fp => fr.loadImage(fp))
+                  );
+                  
+                  //Maybe change later to 4 
+                  const numTrainingFaces = 2;
+                  const trainDataByClass = imagesByClass.map(imgs => imgs.slice(0, numTrainingFaces));
+                  const testDataByClass = imagesByClass.map(imgs => imgs.slice(numTrainingFaces));
+                  
+                  /*
+                  Train our recognizer
+                  */
+                  const recognizer = fr.FaceRecognizer();
+                  
+                  trainDataByClass.forEach((faces, label) => {
+                    const name = classNames[label];
+                    recognizer.addFaces(faces, name);
+                  });
+                  
+                  //  console.log(recognizer.getFaceDescriptors); 
+                  
+                  /*
+                  Save Our Trained Data
+                  */
+                  const modelState = recognizer.serialize();
+                  fs.writeFileSync('model.json', JSON.stringify(modelState));      
+                          }
+                        })
+      }
+    }
+  });
+  
+
+}
+
 module.exports = {upload: upload,
-                  getImages: testImages
+                  getImages: testImages,
+                  getTrainingImages: getTrainingImages
                  };

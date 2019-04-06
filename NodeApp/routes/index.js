@@ -8,7 +8,6 @@ var s3Upload = require('../utils/s3_functions').upload;
 var download = require('download-file');
 var s3 = require('../utils/s3_functions'); 
 
-const path = require('path');
 const fs = require('fs');
 const fr = require('face-recognition');
 
@@ -106,16 +105,17 @@ router.get('/recognize',function(req,res){
   const faceImage = detector.detectFaces(image, targetSize);
   const faceRects  = detector.locateFaces(image).map(mmodRect => mmodRect.rect);
   const faces = detector.getFacesFromLocations(image, faceRects, 150);
-
+  var listOfSimilarIds = []; 
   if(faceRects.length){
       faceRects.forEach((rect,i)=>{
       const predict = recognizer.predictBest(faces[i],0.69);
-      if(predict.className == "1" && predict.distance <= 0.6 ) {
-        const win= new fr.ImageWindow();
-        win.setImage(image);
-        win.addOverlay(rect);
-        win.addOverlay(rect, `${predict.className} (${predict.distance})`);
+      if(predict.className == "1" && predict.distance <= 0.6) {
+        //const win= new fr.ImageWindow();
+        //win.setImage(image);
+        //win.addOverlay(rect);
+        //win.addOverlay(rect, `${predict.className} (${predict.distance})`);
         //console.log(file); 
+        listOfSimilarIds.push(file.substring(0, file.length - 4)); 
         console.log(predict.distance); 
         console.log(predict.className); 
       }

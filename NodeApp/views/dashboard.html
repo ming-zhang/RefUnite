@@ -36,11 +36,11 @@
         <div class="h5">Landing page. Shows top XX matches for each family/friends profile created.</div>
         <div ng-controller = "dashboardController">
           <h3>{{ sessionUsername }}</h3>
-        </div>
-        <!-- Display the users -->
-        <button type="button"id="recognize" class="btn btn-success"onclick="Recognize()"style="width:100%;">
+          <button type="button"id="recognize" class="btn btn-success"ng-click="getRecognize()"style="width:100%;">
             <span class="navhead">Recognize</span>
         </button>
+        </div>
+        <!-- Display the users -->
       </div>
     </div>
   

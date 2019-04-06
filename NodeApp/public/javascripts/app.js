@@ -135,6 +135,18 @@ app.service('fileUpload', ['$http', function ($http) {
 app.controller('dashboardController', function($scope, $http) {
 
   $scope.sessionUsername = "null";
+  
+  $scope.getRecognize = function() {
+    $http({
+      url: '/recognize',
+      method: "GET",
+    }).success(function(res) {
+      console.log("Recognize working");
+    }).error(function(res) {
+      console.log('Error callback in app js');
+      console.log(response);
+    });
+  };
 
   $scope.getSessionUsername = function() {
     console.log("IN GETSESSIONUSERNAME!");

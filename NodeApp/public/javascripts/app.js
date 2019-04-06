@@ -135,7 +135,20 @@ app.service('fileUpload', ['$http', function ($http) {
 app.controller('dashboardController', function($scope, $http) {
 
   $scope.sessionUsername = "null";
-  
+  $scope.getFamFriendIds = function() {
+    $http({
+      url: '/famfriendids',
+      method: "GET",
+    }).success(function(res) {
+      console.log("Fam Friends ids working");
+      $scope.famFriendsIds = res.famFriendsIds;
+      console.log($scope.famFriendsIds); 
+    }).error(function(res) {
+      console.log('Error callback in app js');
+      console.log(response);
+    });
+  }; 
+
   $scope.getRecognize = function() {
     $http({
       url: '/recognize',
@@ -177,6 +190,7 @@ app.controller('dashboardController', function($scope, $http) {
   };
 
   $scope.getSessionUsername();
+  $scope.getFamFriendIds(); 
 });
 
 app.controller('logoutController', function($scope, $http) {

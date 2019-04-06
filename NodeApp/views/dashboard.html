@@ -39,6 +39,9 @@
           <button type="button"id="recognize" class="btn btn-success"ng-click="getRecognize()"style="width:100%;">
             <span class="navhead">Recognize</span>
           </button>
+          <ul ng-repeat="x in famFriendsIds">
+            <li><a ng-href="/recognize/{{x}}">{{x}}</a></li>
+          </ul>
           <!-- Display the matches -->
           <div class="grid">
             <div ng-repeat="x in ids" class="grid-square" style="margin: 15px;">

@@ -43,7 +43,6 @@ router.get('/', function(req, res) {
 });
 
 router.get('/dashboard', function(req, res) {
-
   // DOWNLOAD TRAINING DATA
   s3.getTrainingImages("1")
 
@@ -51,6 +50,15 @@ router.get('/dashboard', function(req, res) {
   s3.getImages(); 
 
   res.sendFile(path.join(__dirname, '../', 'views', 'dashboard.html'));
+});
+
+router.get('/recognize/:id', function(req, res) {
+  // DOWNLOAD TRAINING DATA
+
+  console.log("IN RECOGNIZE ID");
+  console.log(req.params.id);
+
+  s3.getTrainingImages(req.params.id); 
 });
 
 router.get('/reference', function(req, res) {
@@ -76,6 +84,29 @@ router.get('/createAccount_profileDetails', function(req, res) {
 router.get('/createAccount_photoUpload', function(req, res) {
   res.sendFile(path.join(__dirname, '../', 'views', 'createacct_photoupload.html'));
 });
+
+router.get('/famfriendids', function(req, res) {
+  var username = req.session.username;
+  // res.send("Trying to log in");
+  console.log("About to check log in");
+  var loginResult = "INCOMPLETE";
+  db.getUser(username,function(err, data) {
+    if (err || !data) {
+      console.log('This login is not going well');
+      if (err) console.log(err);
+      //res.redirect('/');
+      //res.sendFile(path.join(__dirname, '../', 'views', 'login.html'));
+    } else {
+      var famFriendsIds = data.fam_friend_ids; 
+      console.log("The ids are: " + famFriendsIds); 
+      res.json({famFriendsIds});
+      //req.session.username = username;
+      //res.redirect('/dashboard');
+      //res.sendFile(path.join(__dirname, '../', 'views', 'dashboard.html'));
+    }
+  });
+}); 
+
 
 router.get('/recognize',function(req,res){
 

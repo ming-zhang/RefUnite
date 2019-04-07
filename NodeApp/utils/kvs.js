@@ -263,7 +263,6 @@ var updateProfile = function(currUser, age, gender, origin, callback) {
             function(err, data) {
             if (err) {
                 console.log(err);
-                console.log("errored in kvs")
                 callback(err, null);
             } else {
                 callback(null, "OK");

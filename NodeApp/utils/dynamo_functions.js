@@ -122,7 +122,6 @@ var updateProfile = function(currUser, age, gender, origin, callback) {
 	console.log("trying to update profile")
 	kvs.updateProfile(currUser, age, gender, origin, function(err, data) {
 		if (err) {
-			console.log("in dynamo updateprofile definition just errored")
 			console.log(err);
 		} else {
 			callback(null, data);

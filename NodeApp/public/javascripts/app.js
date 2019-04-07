@@ -52,44 +52,33 @@ app.controller('createAccountController', function($scope, $http) {
     // To check in the console if the variables are correctly storing the input:
     // console.log($scope.username, $scope.password);
     window.location.href = "http://localhost:8081/"
-
   };
-  $scope.nextToPersonalDetails = function() {
-    // To check in the console if the variables are correctly storing the input:
-    // console.log($scope.username, $scope.password);
-    window.location.href = "http://localhost:8081/createAccount_profileDetails"
 
-  };
-});
-
-app.controller('createAccountProfileDetailsController', function($scope, $http) {
-  
-  $scope.backToCreateAccount = function() {
-    // To check in the console if the variables are correctly storing the input:
-    // console.log($scope.username, $scope.password);
-    window.location.href = "http://localhost:8081/createAccount"
-
-  };
-  $scope.nextToPhotoUpload = function() {
-    // To check in the console if the variables are correctly storing the input:
-    // console.log($scope.username, $scope.password);
-    window.location.href = "http://localhost:8081/createAccount_photoUpload"
-
-  };
-});
-
-app.controller('createAccountPhotoUploadController', ['$scope', 'fileUpload', function($scope, fileUpload) {
-  
   $scope.finish = function() {
     // To check in the console if the variables are correctly storing the input:
     // console.log($scope.username, $scope.password);
-    window.location.href = "http://localhost:8081/dashboard"
 
-  };
-  $scope.backToProfileDetails = function() {
-    // To check in the console if the variables are correctly storing the input:
-    // console.log($scope.username, $scope.password);
-    window.location.href = "http://localhost:8081/createAccount_profileDetails"
+    $http({
+      url: '/registerUser',
+      method: "POST",
+      data: {
+        'username': $scope.emailaddr,
+        'password': $scope.password,
+        'gender': $scope.inputGender,
+        'age': $scope.inputAge,
+        'region': $scope.inputRegion
+      }
+    }).success(function(response) {
+      console.log('Success callback in app js');
+      window.location.href = '/dashboard';
+      
+      //$scope.sessionUsername = $scope.username
+      //console.log("$scope.sessionUsername: " + $scope.sessionUsername);
+
+    }).error(function(response) {
+      console.log('Error callback in app js');
+      console.log(response);
+    });
   };
 
   $scope.uploadFile = function(){
@@ -97,8 +86,7 @@ app.controller('createAccountPhotoUploadController', ['$scope', 'fileUpload', fu
     var uploadUrl = "/image-upload";
     fileUpload.uploadFileToUrl(file, uploadUrl);
   };
-
-}]);
+});
 
 app.directive('fileModel', ['$parse', function ($parse) {
     return {

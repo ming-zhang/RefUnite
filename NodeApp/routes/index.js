@@ -228,7 +228,7 @@ router.post('/checklogin', function(req, res) {
   console.log("About to check log in");
   var loginResult = "INCOMPLETE";
   db.checkLogin(username, password, function(err, data) {
-    if (err || !data) {
+    if (err) {
       console.log('This login is not going well');
       if (err) console.log(err);
       //res.redirect('/');
@@ -242,11 +242,39 @@ router.post('/checklogin', function(req, res) {
 
 });
 
+router.post('/registerUser', function(req, res) {
+  console.log("IN ROUTER.POST.registerUser");
+  var email = req.body.username;
+  var password = req.body.password;
+  var gender = req.body.gender;
+  var age = req.body.age;
+  var origin = req.body.origin;
+  var looking_for  = [];
+  var img_ids = []; 
+  var fam_friend_ids = [];
+
+  //var loginResult = "INCOMPLETE";
+  db.addUser(email, password, gender, age, origin, looking_for, img_ids, fam_friend_ids, function(err, data) {
+    if (err) {
+      console.log('This registration is not going well');
+      if (err) console.log(err);
+      //res.redirect('/');
+      //res.sendFile(path.join(__dirname, '../', 'views', 'login.html'));
+    } else {
+      req.session.username = email;
+      res.redirect('/dashboard');
+      //res.sendFile(path.join(__dirname, '../', 'views', 'dashboard.html'));
+    }
+  });
+
+});
+
+
 router.post('/getuserinfo', function(req, res) {
   console.log("IN /getuserinfo");
   var email = req.body.username;
   db.getUser(email, function(err, data) {
-    if (err || !data) {
+    if (err) {
       console.log("Couldn't get userinfo");
       if (err) console.log(err);
     } else {

@@ -293,6 +293,57 @@ app.controller('profileController', function($scope, $http) {
 
 });
 
+app.controller('familyController', function($scope, $http) {
+  console.log("In familyController");
+  $scope.getSessionUsername = function() {
+
+    $http({
+      url: '/dashboardSession',
+      method: "GET",
+    }).success(function(res) {
+      $scope.sessionUsername = res.username;
+
+      /*$scope.sessionUsername = SessionData.data.username;
+      $scope.updateData = function(email) {
+        SessionData.update(email);
+      }
+
+      $scope.updateData(res.username);
+      console.log("after setting the username: " + SessionData.data.username)*/
+
+
+      /*console.log("getting the session username");
+      $scope.sessionUsername = res.username;
+      console.log("$scope.sessionUsername: " + $scope.sessionUsername);
+      SessionData.data.username = $scope.sessionUsername;
+      console.log("after setting the username: " + SessionData.data.username);*/
+    }).error(function(res) {
+      console.log('Error callback in app js');
+      console.log(response);
+    });
+  };
+
+  $scope.addFamFriend = function() {
+    $scope.getSessionUsername();
+    $http({
+      url: '/addFamFriend',
+      method: "POST",
+      data: {
+        'name': $scope.name,
+        'relation': $scope.relation,
+        'gender': $scope.gender,
+        'age': $scope.age,
+        'region': $scope.region
+      }
+    }).success(function(res) {
+      // show photo upload
+
+    }).error(function(res) {
+      console.log('Error callback in app js');
+      console.log(res);
+    });
+  };
+});
 
 // Template for adding a controller
 /*

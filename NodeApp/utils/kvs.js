@@ -46,10 +46,11 @@ var famFriends = vogels.define('famFriend', {
     hashKey : 'id',
     schema : {
         id : vogels.types.uuid(),
+        name: joi.string(),
         img_ids : vogels.types.stringSet(),
         relation: joi.string(),
         gender: joi.string(),
-        age : joi.number(),
+        age : joi.string(),
         origin : joi.string(),
         user_email : joi.string(),
     }

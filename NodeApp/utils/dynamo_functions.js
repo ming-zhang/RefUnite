@@ -17,6 +17,10 @@ kvs.init(function(err, message) {
 		// 	console.log(err)
 		// 	console.log(data)
 		// });
+		// addFamFriend("famFriendName", [], "son", "male", "18 - 34", "Asia", "test@test.com", function(err, data){
+		// 	console.log(err);
+		// });
+
 	}
 });
 
@@ -70,8 +74,9 @@ var checkLogin = function(email, password, callback) {
 };
 
 // add a famFriend to the database with the given params (JSON document)
-var addFamFriend = function(img_ids, relation, gender, age, origin, user_email, callback) {
+var addFamFriend = function(name, img_ids, relation, gender, age, origin, user_email, callback) {
 	var params = {
+		name: name,
 		img_ids: img_ids,
 		relation: relation,
 		gender: gender,
@@ -87,6 +92,7 @@ var addFamFriend = function(img_ids, relation, gender, age, origin, user_email, 
 			// add famFriend id to User
 			kvs.addFamFriendToUser(user_email, data.id, function(err2, data2) {
 				if (err2) {
+					console.log("failed to add fam friend to user");
 					console.log(err2);
 					callback(err2, null);
 				} else {

@@ -12,33 +12,12 @@
   </head>
 
   <body>
-    <div class="heading">RefUnite</div>
 
     <!--  -->
-    <div class="container login-container" ng-controller="createAccountController">
-      <input type="text" class="input username" placeholder="email@email" ng-model="emailaddr" />
-      <input type="text" class="input username" placeholder="Username" ng-model="username" />
-      <input type="password" class="input password" placeholder="Password" ng-model="password" />
-      <button type="button" class="login-button" name="Login" ng-click="nextToPersonalDetails()">Next</button>
-      <button type="button" class="login-button" name="Login" ng-click="backToLogin()">Sign in instead</button>
-    </div>
+    <div class="container login-container" ng-controller="createAccountController" style="color: white; width:50%; border: solid 1px white">
+      <label> Email: <input type="text" class="input username" placeholder="email@email" ng-model="emailaddr" /> </label>
+      <label> Password: <input type="password" class="input password" placeholder="Password" ng-model="password" /> </label>
 
-    <!-- Photo upload div -->
-    <div class="container login-container" ng-controller="createAccountPhotoUploadController">
-      <div>
-        <input type="file" name="user-photo" file-model="myFile"/>
-        <button ng-click="uploadFile()">upload me</button>
-      </div>
-
-
-      <label> <input type="checkbox"  onchange="document.getElementById('finish').disabled = !this.checked;"/> I agree to the terms and conditions. </label>
-      <button type="button" disabled class="login-button" name="Next" ng-click="finish()" id="finish">Finish</button>
-      <button type="button" class="login-button" name="Back" ng-click="backToProfileDetails()">Back</button>
-    </div>
-
-    <!-- Profile details div -->
-    <div class="container login-container" ng-controller="createAccountProfileDetailsController">
-      <div>
         <label>Gender:
           <select name="gender">
             <option value="Female">Female</option>
@@ -75,11 +54,17 @@
             <option value="Unknown">Unknown</option>
           </select>
         </label>
-      </div>
 
-      <button type="button" class="login-button" name="Next" ng-click="nextToPhotoUpload()">Next</button>
-      <button type="button" class="login-button" name="Back" ng-click="backToCreateAccount()">Back</button>
+        </br>
+        <input type="file" name="user-photo" file-model="myFile"/>
+        <button ng-click="uploadFile()">upload me</button>
+        </br>
 
+
+      <label> <input type="checkbox"  onchange="document.getElementById('finish').disabled = !this.checked;"/> I agree to the terms and conditions. </label>
+
+      <button type="button" class="login-button" name="Login" ng-click="backToLogin()" >Sign in instead</button>
+      <button type="button" disabled class="login-button" name="Next" ng-click="finish()" id="finish">Finish</button>
     </div>
 
 

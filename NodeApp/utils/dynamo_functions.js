@@ -17,6 +17,10 @@ kvs.init(function(err, message) {
 		// 	console.log(err)
 		// 	console.log(data)
 		// });
+		// addFamFriend("famFriendName", [], "son", "male", "18 - 34", "Asia", "test@test.com", function(err, data){
+		// 	console.log(err);
+		// });
+
 	}
 });
 

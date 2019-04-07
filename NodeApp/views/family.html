@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="angularjsNodejsTutorial">
 
   <head>
     <meta charset="UTF-8">
@@ -17,7 +17,7 @@
     <!-- Include your custom css file here if you're making one -->
   </head>
 
-  <body>
+  <body ng-controller="familyController">
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <span class="navbar-brand center">RefUnite</span>
@@ -36,18 +36,66 @@
     <!-- User Content -->
     <div class="container user-container">
       <div class="jumbotron">
-        <div class="h5">FAMILY & FRIENDS</div>
+        <div class="h5">FAMILY FRIENDS</div>
         <h6> Have a left sidebar listing all existing profiles and an add profile button. Main content allows edit/deleting a profile.</h6>
         <!-- Display the users -->
       </div>
     </div>
-    
-    <input type="file" 
-    class="filepond"
-    name="filepond" 
-    multiple 
-    data-max-file-size="3MB"
-    data-max-files="4">
+
+
+     <input type="text" class="input name" placeholder="name" ng-model="name" /><br>
+     <input type="text" class="input relation" placeholder="relation" ng-model="relation" />
+     <div>
+        <label> Gender:
+          <select name="gender" ng-model="gender">
+            <option value="Female">Female</option>
+            <option value="Male">Male</option>
+            <option value="Other">Other</option>
+          </select>
+        </label>
+        </br>
+        <label> Age: 
+          <select name="age" ng-model="age">
+            <option value="Under18">Under 18</option>
+            <option value="18-24">18-24</option>
+            <option value="25-34">25-34</option>
+            <option value="35-44">35-44</option>
+            <option value="45-54">45-54</option>
+            <option value="55-64">55-64</option>
+            <option value="65-74">65-74</option>
+            <option value="65+">65+</option>
+            <option value="Unknown">Unknown</option>
+          </select>
+        </label>
+        </br>
+        <label> Region of Origin: 
+          <select name="region" ng-model="region">
+            <option value="Africa">Africa</option>
+            <option value="Asia">Asia</option>
+            <option value="Caribbean">Caribbean</option>
+            <option value="CentralAmerica">Central America</option>
+            <option value="Europe">Europe</option>
+            <option value="MiddleEast">Middle East</option>
+            <option value="NorthAmerica">North America</option>
+            <option value="Oceania">Oceania</option>
+            <option value="SouthAmerica">South America</option>
+            <option value="Unknown">Unknown</option>
+          </select>
+        </label>
+      </div>
+
+      <button type="button" name="addFamFriend" ng-click="addFamFriend()" id="addFamFriend">Add</button>
+
+      <br><br><br>
+
+       <!-- <input type="file" 
+        class="filepond"
+        name="filepond" 
+        multiple 
+        data-max-file-size="3MB"
+        data-max-files="4"/> -->
+
+
 
     <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
     <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet">
@@ -79,10 +127,11 @@
         );
         
         // Select the file input and use create() to turn it into a pond
-        FilePond.create(
-          document.querySelector('input')
+        // FilePond.create(
+        //   document.querySelector('.filepond')
 
-        );
+        // );
+
         // set up s3 connection
         var s3 = new AWS.S3({
           accessKeyId: "AKIAIBIOLFSQYUBEA7XQ",
@@ -114,46 +163,48 @@
                 }
             }
         });
-        </script>
+    </script>
 
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.250.1.min.js"></script>
-<script>
 
-// set up s3 connection
-var s3 = new AWS.S3({
-    accessKeyId: "AKIAIBIOLFSQYUBEA7XQ",
-  secretAccessKey: "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",
-  region: 'us-east-1'
-});
+    <script>
 
-// set custom FilePond file processing method
-FilePond.setOptions({
-    server: {
-        process: function(fieldName, file, metadata, load, error, progress, abort) {
-            
-            s3.upload({
-                Bucket: 'refunite-famfriend-images',
-                Key: Date.now() + '_' + file.name,
-                Body: file,
-                ContentType: file.type,
-                ACL: 'public-read'
-            }, function(err, data) {
+    // set up s3 connection
+    var s3 = new AWS.S3({
+        accessKeyId: "AKIAIBIOLFSQYUBEA7XQ",
+      secretAccessKey: "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",
+      region: 'us-east-1'
+    });
 
-                if (err) {
-                    error('Something went wrong');
-                    return;
-                }
+    // set custom FilePond file processing method
+    FilePond.setOptions({
+        server: {
+            process: function(fieldName, file, metadata, load, error, progress, abort) {
+                
+                s3.upload({
+                    Bucket: 'refunite-famfriend-images',
+                    Key: Date.now() + '_' + file.name,
+                    Body: file,
+                    ContentType: file.type,
+                    ACL: 'public-read'
+                }, function(err, data) {
 
-                // pass file unique id back to filepond
-                load(data.Key);
+                    if (err) {
+                        error('Something went wrong');
+                        return;
+                    }
 
-            });
+                    // pass file unique id back to filepond
+                    load(data.Key);
 
+                });
+
+            }
         }
-    }
-});
+    });
 
-</script>
+    </script>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>

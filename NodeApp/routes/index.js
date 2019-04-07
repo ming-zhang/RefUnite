@@ -77,6 +77,21 @@ router.get('/family', function(req, res) {
   res.sendFile(path.join(__dirname, '../', 'views', 'family.html'));
 });
 
+//var addFamFriend = function(name, img_ids, relation, gender, age, origin, user_email, callback) {
+
+router.post('/addFamFriend', function(req, res) {
+  console.log("in ADDFAMFRIEND");
+  console.log(req.body);
+  db.addFamFriend(req.body.name, [], req.body.relation, req.body.gender, req.body.age, req.body.region, req.session.username, function(err, data) {
+    if (err || !data) {
+      console.log("Adding fam friend error");
+      if (err) console.log(err);
+    } else {
+      console.log("Added fam friend to dynamo");
+    }
+  });
+});
+
 router.get('/createAccount', function(req, res) {
   res.sendFile(path.join(__dirname, '../', 'views', 'createaccount.html'));
 });

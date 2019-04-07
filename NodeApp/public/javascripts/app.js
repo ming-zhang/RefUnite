@@ -1,5 +1,19 @@
 var app = angular.module('angularjsNodejsTutorial', []);
-app.controller('loginController', function($scope, $http) {
+
+app.factory('SessionData', function () {
+
+    return {
+        data: {
+          username: ''
+        },
+        update: function(email) {
+          // Improve this method as needed
+          this.data.username = email;
+        }
+    };
+});
+
+app.controller('loginController', function($scope, $http, SessionData) {
   $scope.verifyLogin = function() {
     // To check in the console if the variables are correctly storing the input:
     // console.log($scope.username, $scope.password);
@@ -15,8 +29,8 @@ app.controller('loginController', function($scope, $http) {
       console.log('Success callback in app js');
       window.location.href = '/dashboard';
       
-      $scope.sessionUsername = response.username;
-      console.log("$scope.sessionUsername: " + $scope.sessionUsername);
+      //$scope.sessionUsername = $scope.username
+      //console.log("$scope.sessionUsername: " + $scope.sessionUsername);
 
     }).error(function(response) {
       console.log('Error callback in app js');
@@ -132,9 +146,10 @@ app.service('fileUpload', ['$http', function ($http) {
     }
 }]);
 
-app.controller('dashboardController', function($scope, $http) {
+app.controller('dashboardController', function($scope, $http, SessionData) {
 
-  $scope.sessionUsername = "null";
+  $scope.sessionUsername = null;
+  console.log($scope.sessionUsername);
   $scope.getFamFriendIds = function() {
     $http({
       url: '/famfriendids',
@@ -175,14 +190,28 @@ app.controller('dashboardController', function($scope, $http) {
   };
 
   $scope.getSessionUsername = function() {
+
     console.log("IN GETSESSIONUSERNAME!");
     $http({
       url: '/dashboardSession',
       method: "GET",
     }).success(function(res) {
-      console.log("getting the session username");
+      $scope.sessionUsername = res.username;
+
+      /*$scope.sessionUsername = SessionData.data.username;
+      $scope.updateData = function(email) {
+        SessionData.update(email);
+      }
+
+      $scope.updateData(res.username);
+      console.log("after setting the username: " + SessionData.data.username)*/
+
+
+      /*console.log("getting the session username");
       $scope.sessionUsername = res.username;
       console.log("$scope.sessionUsername: " + $scope.sessionUsername);
+      SessionData.data.username = $scope.sessionUsername;
+      console.log("after setting the username: " + SessionData.data.username);*/
     }).error(function(res) {
       console.log('Error callback in app js');
       console.log(response);
@@ -209,6 +238,60 @@ app.controller('logoutController', function($scope, $http) {
       console.log(res);
     });
   };
+
+});
+
+app.controller('profileController', function($scope, $http) {
+  $scope.sessionUsername = '';
+  var sessionUsername = '';
+  $scope.getSessionUsername = function() {
+    console.log("IN GETSESSIONUSERNAME!");
+    $http({
+      url: '/profileSession',
+      method: "GET",
+    }).success(function(res) {
+      $scope.sessionUsername = res.username;
+      sessionUsername = res.username;
+      console.log("SETTING THE SESSION USERNAME SCOPE VAR " + res.username);
+      $scope.getUserInfo();
+    }).error(function(res) {
+      console.log('Error callback in app js');
+      console.log(res);
+    });
+  };
+  
+
+  //need to query the database by the username to get all the other functions
+  $scope.gender = '';
+  $scope.dob = '';
+  $scope.origin = '';
+  $scope.looking_for = '';
+  $scope.fam_friend_ids = '';
+  $scope.getUserInfo = function() {
+    console.log("IN GET USER INFO: " + $scope.sessionUsername);
+    //$scope.sessionUsername = "test@gmail.com";
+    $http({
+      url: '/getuserinfo',
+      method: "POST",
+      data: {
+        'username': $scope.sessionUsername,
+      }
+    }).success(function(res) {
+      $scope.userInfo = res;
+      console.log("SUCCESS WOOHOO");
+      $scope.gender = res.gender;
+      $scope.dob = res.dob;
+      $scope.origin = res.origin;
+      $scope.looking_for = res.looking_for;
+      $scope.fam_friend_ids = res.fam_friend_ids;
+      //$scope.userInfo.email;
+      //$scope.sessionUsername = res.username;
+    }).error(function(res) {
+      console.log('Error callback in app js');
+      console.log(res);
+    });
+  };
+  $scope.getSessionUsername();
 
 });
 

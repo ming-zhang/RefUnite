@@ -222,6 +222,29 @@ router.post('/checklogin', function(req, res) {
 
 });
 
+router.post('/getuserinfo', function(req, res) {
+  console.log("IN /getuserinfo");
+  var email = req.body.username;
+  db.getUser(email, function(err, data) {
+    if (err || !data) {
+      console.log("Couldn't get userinfo");
+      if (err) console.log(err);
+    } else {
+      console.log("LOGGIN DATA: ");
+      console.log(data.gender);
+      console.log(data.email);
+      req.session.userInfo = data;
+      res.json({
+        gender : data.gender,
+        dob : data.DOB,
+        origin : data.origin,
+        looking_for : data.looking_for,
+        fam_friend_ids : data.fam_friend_ids
+      });
+    }
+  });
+});
+
 router.get('/dashboardSession', function(req, res) {
   console.log("IN ROUTERGET DASHBOARDSESSION");
   //res.username = req.session.username;
@@ -232,6 +255,13 @@ router.get('/dashboardSession', function(req, res) {
   //res.end();
   console.log(req.session.username);
   console.log(res.username);
+});
+
+router.get('/profileSession', function(req, res) {
+  console.log("IN ROUTERGET PROFILESESSION");
+  res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
+
+  res.json({username: req.session.username});
 });
 
 router.get('/logoutSession', function(req, res) {

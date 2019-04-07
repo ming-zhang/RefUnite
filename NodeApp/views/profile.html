@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<html ng-app="angularjsNodejsTutorial">
 <html lang="en">
 
   <head>
@@ -15,7 +16,7 @@
     <!-- Include your custom css file here if you're making one -->
   </head>
 
-  <body>
+  <body ng-controller = "profileController">
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <span class="navbar-brand center">RefUnite</span>
@@ -24,7 +25,7 @@
           <a class="nav-item nav-link" href="/dashboard">Dashboard</a>
           <a class="nav-item nav-link active" href="/profile">My Profile</a>
           <a class="nav-item nav-link" href="/family">Family & Friends</a>
-          <a class="nav-item nav-link" href="/">Logout</a>
+          <a class="nav-item nav-link" href="/">Logout ({{ sessionUsername }})</a>
         </div>
       </div>
     </nav>
@@ -36,6 +37,12 @@
       <div class="jumbotron">
         <div class="h5">USER PROFILE</div>
         <h6> Display all info for current profile. Have an edit profile button. </h6>
+        <br>
+        <h6> Gender: {{gender}} </h6>
+        <h6> DOB (YYYY/MM/DD): {{dob[1]}} / {{dob[2]}} / {{dob[0]}}  </h6>
+        <h6> Origin: {{origin}} </h6>
+        <h6> Looking For: {{looking_for[0]}} </h6>
+        <!-- Need to get all the information for the current profile -->
         <!-- Display the users -->
       </div>
     </div>

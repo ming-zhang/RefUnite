@@ -149,7 +149,7 @@ var retrieveUser = function(email, callback) {
                 img_ids : attrs.img_ids,
                 fam_friend_ids : attrs.fam_friend_ids
             };
-            callback(null, info);
+            callback(null, data.attrs); //info
         });
     } else {
         console.log("Tables not yet initialized--call init first!");

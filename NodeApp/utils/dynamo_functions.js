@@ -130,13 +130,26 @@ var updateProfile = function(currUser, age, gender, origin, callback) {
 	});
 };
 
+var addImageToFamFriend = function(id, img_ids, callback) {
+	console.log("Adding images to fam friend")
+	kvs.addImageToFamFriend(id, img_ids, function(err, data) {
+		if (err) {
+			console.log("error adding image to fam friend")
+			console.log(err);
+		} else {
+			callback(null, data);
+		}
+	});
+};
+
 var database = {
 	addUser: addUser,
 	getUser: getUser,
 	getFamFriend: getFamFriend,
 	addFamFriend: addFamFriend,
 	checkLogin: checkLogin,
-	updateProfile: updateProfile
+	updateProfile: updateProfile,
+	addImageToFamFriend: addImageToFamFriend
 }
 
 module.exports = database;

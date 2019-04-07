@@ -13,6 +13,8 @@
 
   <body>
     <div class="heading">RefUnite</div>
+
+    <!--  -->
     <div class="container login-container" ng-controller="createAccountController">
       <input type="text" class="input username" placeholder="email@email" ng-model="emailaddr" />
       <input type="text" class="input username" placeholder="Username" ng-model="username" />
@@ -20,6 +22,66 @@
       <button type="button" class="login-button" name="Login" ng-click="nextToPersonalDetails()">Next</button>
       <button type="button" class="login-button" name="Login" ng-click="backToLogin()">Sign in instead</button>
     </div>
+
+    <!-- Photo upload div -->
+    <div class="container login-container" ng-controller="createAccountPhotoUploadController">
+      <div>
+        <input type="file" name="user-photo" file-model="myFile"/>
+        <button ng-click="uploadFile()">upload me</button>
+      </div>
+
+
+      <label> <input type="checkbox"  onchange="document.getElementById('finish').disabled = !this.checked;"/> I agree to the terms and conditions. </label>
+      <button type="button" disabled class="login-button" name="Next" ng-click="finish()" id="finish">Finish</button>
+      <button type="button" class="login-button" name="Back" ng-click="backToProfileDetails()">Back</button>
+    </div>
+
+    <!-- Profile details div -->
+    <div class="container login-container" ng-controller="createAccountProfileDetailsController">
+      <div>
+        <label>Gender:
+          <select name="gender">
+            <option value="Female">Female</option>
+            <option value="Male">Male</option>
+            <option value="Other">Other</option>
+          </select>
+        </label>
+        </br>
+        <label> Age: 
+          <select name="age">
+            <option value="Under18">Under 18</option>
+            <option value="18-24">18-24</option>
+            <option value="25-34">25-34</option>
+            <option value="35-44">35-44</option>
+            <option value="45-54">45-54</option>
+            <option value="55-64">55-64</option>
+            <option value="65-74">65-74</option>
+            <option value="65+">65+</option>
+            <option value="Unknown">Unknown</option>
+          </select>
+        </label>
+        </br>
+        <label> Region of Origin: 
+          <select name="region">
+            <option value="Africa">Africa</option>
+            <option value="Asia">Asia</option>
+            <option value="Caribbean">Caribbean</option>
+            <option value="CentralAmerica">Central America</option>
+            <option value="Europe">Europe</option>
+            <option value="MiddleEast">Middle East</option>
+            <option value="NorthAmerica">North America</option>
+            <option value="Oceania">Oceania</option>
+            <option value="SouthAmerica">South America</option>
+            <option value="Unknown">Unknown</option>
+          </select>
+        </label>
+      </div>
+
+      <button type="button" class="login-button" name="Next" ng-click="nextToPhotoUpload()">Next</button>
+      <button type="button" class="login-button" name="Back" ng-click="backToCreateAccount()">Back</button>
+
+    </div>
+
 
     <!-- Include these before the end of body tag in every HTML file -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>

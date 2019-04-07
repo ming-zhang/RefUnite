@@ -84,16 +84,13 @@
         </label>
       </div>
 
-      <button type="button" name="addFamFriend" ng-click="addFamFriend()" id="addFamFriend">Add</button>
+      <button type="button" name="addFamFriend" ng-click="addFamFriend()" id="addFamFriend"
+      onclick="showFileUpload()" >Add</button>
 
       <br><br><br>
 
-       <!-- <input type="file" 
-        class="filepond"
-        name="filepond" 
-        multiple 
-        data-max-file-size="3MB"
-        data-max-files="4"/> -->
+
+        <div id="demo"></div>
 
 
 
@@ -108,6 +105,8 @@
     <script src="https://unpkg.com/filepond/dist/filepond.js"></script>
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.250.1.min.js"></script>
     <!-- Include these before the end of body tag in every HTML file -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script>/*
         We want to preview images, so we need to register the Image Preview plugin
         */
@@ -126,11 +125,13 @@
           FilePondPluginImagePreview
         );
         
-        // Select the file input and use create() to turn it into a pond
-        // FilePond.create(
-        //   document.querySelector('.filepond')
-
-        // );
+        var showFileUpload = function() {
+            document.getElementById('demo').innerHTML = '<input type="file" class="filepond" name="filepond" multiple data-max-file-size="3MB" data-max-files="4"/>'
+            //Select the file input and use create() to turn it into a pond
+            FilePond.create(
+              document.querySelector('.filepond')
+            );
+        }
 
         // set up s3 connection
         var s3 = new AWS.S3({
@@ -139,30 +140,6 @@
           region: 'us-east-1'
         });
 
-        // set custom FilePond file processing method
-        FilePond.setOptions({
-            server: {
-                process: function(fieldName, file, metadata, load, error, progress, abort) {
-                    s3.upload({
-                        Bucket: 'refunite-famfriend-images',
-                        Key: Date.now() + '_' + file.name,
-                        Body: file,
-                        ContentType: file.type,
-                        ACL: 'public-read'
-                    }, function(err, data) {
-
-                        if (err) {
-                            error('Something went wrong');
-                            return;
-                        }
-
-                        // pass file unique id back to filepond
-                        load(data.Key);
-                    });
-
-                }
-            }
-        });
     </script>
 
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.250.1.min.js"></script>
@@ -180,7 +157,7 @@
     FilePond.setOptions({
         server: {
             process: function(fieldName, file, metadata, load, error, progress, abort) {
-                
+                console.log("hi we are in s3 upload"); 
                 s3.upload({
                     Bucket: 'refunite-famfriend-images',
                     Key: Date.now() + '_' + file.name,
@@ -188,25 +165,22 @@
                     ContentType: file.type,
                     ACL: 'public-read'
                 }, function(err, data) {
-
                     if (err) {
                         error('Something went wrong');
+                        console.log(err); 
                         return;
                     }
-
+                    //console.log("after the callback"); 
+                    //addImageToFamFriend(); 
                     // pass file unique id back to filepond
                     load(data.Key);
 
                 });
-
             }
         }
     });
 
     </script>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
   </body>

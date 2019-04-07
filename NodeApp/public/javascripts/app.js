@@ -1,19 +1,6 @@
 var app = angular.module('angularjsNodejsTutorial', []);
 
-app.factory('SessionData', function () {
-
-    return {
-        data: {
-          username: ''
-        },
-        update: function(email) {
-          // Improve this method as needed
-          this.data.username = email;
-        }
-    };
-});
-
-app.controller('loginController', function($scope, $http, SessionData) {
+app.controller('loginController', function($scope, $http) {
   $scope.verifyLogin = function() {
     // To check in the console if the variables are correctly storing the input:
     // console.log($scope.username, $scope.password);
@@ -146,7 +133,11 @@ app.service('fileUpload', ['$http', function ($http) {
     }
 }]);
 
-app.controller('dashboardController', function($scope, $http, SessionData) {
+
+app.controller('dashboardController', function($scope, $http) {
+  $scope.disableTagButton = {
+    'visibility': 'hidden'
+  }; 
 
   $scope.sessionUsername = null;
   console.log($scope.sessionUsername);
@@ -188,6 +179,12 @@ app.controller('dashboardController', function($scope, $http, SessionData) {
       console.log(response);
     });
   };
+
+  $scope.setRecognizeVisibility = function() {
+    $scope.disableTagButton = {
+      'visibility': 'visible'
+    }; 
+  }
 
   $scope.getSessionUsername = function() {
 
@@ -240,6 +237,7 @@ app.controller('logoutController', function($scope, $http) {
   };
 
 });
+
 
 app.controller('profileController', function($scope, $http) {
   $scope.sessionUsername = '';
@@ -294,6 +292,7 @@ app.controller('profileController', function($scope, $http) {
   $scope.getSessionUsername();
 
 });
+
 
 // Template for adding a controller
 /*

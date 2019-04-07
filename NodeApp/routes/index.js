@@ -10,11 +10,14 @@ var s3 = require('../utils/s3_functions');
 
 const fs = require('fs');
 const fr = require('face-recognition');
+const rimraf = require('rimraf');
 
 var s3SingleUpload = s3Upload.single('user-photo');
 
 // Connect string to MySQL
 var mysql = require('mysql');
+
+var currentFamId; 
 
 var connection = mysql.createConnection({
   host: 'fling.seas.upenn.edu',
@@ -44,7 +47,7 @@ router.get('/', function(req, res) {
 
 router.get('/dashboard', function(req, res) {
   // DOWNLOAD TRAINING DATA
-  s3.getTrainingImages("1")
+  //s3.getTrainingImages("1")
 
   //Folder for testing data- Trace The Face Database 
   s3.getImages(); 
@@ -54,9 +57,10 @@ router.get('/dashboard', function(req, res) {
 
 router.get('/recognize/:id', function(req, res) {
   // DOWNLOAD TRAINING DATA
-
+  rimraf('./pictures/faces/*', function () { console.log('done'); }); 
   console.log("IN RECOGNIZE ID");
   console.log(req.params.id);
+  currentFamId = req.params.id; 
 
   s3.getTrainingImages(req.params.id); 
 });
@@ -139,7 +143,8 @@ router.get('/recognize',function(req,res){
     if(faceRects.length){
         faceRects.forEach((rect,i)=>{
         const predict = recognizer.predictBest(faces[i],0.69);
-          if(predict.className == "1" && predict.distance <= 0.6) {
+          if(predict.className == currentFamId && predict.distance <= 0.6) {
+            console.log("The current fam id is:" + currentFamId); 
             //const win= new fr.ImageWindow();
             //win.setImage(image);
             //win.addOverlay(rect);

@@ -8,6 +8,7 @@ const fr = require('face-recognition');
 const dynamo = require('./dynamo_functions');
 const path = require('path');
 
+
 aws.config.update({
   accessKeyId: "AKIAIBIOLFSQYUBEA7XQ",
   secretAccessKey: "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",
@@ -95,14 +96,20 @@ const getTrainingImages = (famFriendId) => {
               //Save faceImages to pictures/faces/face_0.jpg ++
               //const uniqueId = url.substring(38,45); 
               //faceImages.forEach((img, i) => fr.saveImage(`./pictures/faces/1_3.png`,img));  
-              if(i == ids.length - 1 && flag) {
+              console.log("This absolutely sucks- before if statement"); 
+              console.log(ids.length - 1); 
+              console.log(i); 
+
+              setTimeout(function(){
+              if(i == ids.length && flag) {
+                console.log("we are inside if statement"); 
                 flag = false; 
                 const dataPath = path.resolve('./pictures/faces');
                 //Our 'database' (add the back-end here)
       
               //ClassNames has to be changed to our uniqueIdentifiers for famFriends 
               //const uniqueId = url.substring(38,45);
-                  const classNames = ['1'];
+                  const classNames = [famFriendId];
                   const allFiles = fs.readdirSync(dataPath);
                   const imagesByClass = classNames.map(c =>
                     allFiles
@@ -112,13 +119,14 @@ const getTrainingImages = (famFriendId) => {
                   );
                   
                   //Maybe change later to 4 
-                  const numTrainingFaces = 2;
+                  const numTrainingFaces = 3;
                   const trainDataByClass = imagesByClass.map(imgs => imgs.slice(0, numTrainingFaces));
                   const testDataByClass = imagesByClass.map(imgs => imgs.slice(numTrainingFaces));
                   
                   /*
                   Train our recognizer
                   */
+                 console.log("Training has begun"); 
                   const recognizer = fr.FaceRecognizer();
                   
                   trainDataByClass.forEach((faces, label) => {
@@ -132,9 +140,12 @@ const getTrainingImages = (famFriendId) => {
                   Save Our Trained Data
                   */
                   const modelState = recognizer.serialize();
-                  fs.writeFileSync('model.json', JSON.stringify(modelState));      
+                  fs.writeFileSync('model.json', JSON.stringify(modelState));  
+                  console.log("Model json is being updated");     
                           }
+                        },5000);
                         })
+                        console.log("Download is done"); 
       }
     }
   });

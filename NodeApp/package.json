@@ -1,5 +1,5 @@
 {
-  "name": "mynodeproject",
+  "name": "RefUnite",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -10,8 +10,10 @@
     "body-parser": "~1.17.1",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.3",
+    "download-file": "^0.1.5",
     "express": "~4.15.2",
     "express-session": "^1.15.6",
+    "face-recognition": "^0.9.4",
     "filepond": "^4.3.5",
     "filepond-plugin-file-encode": "^2.1.4",
     "formidable": "^1.2.1",

@@ -7,6 +7,16 @@ kvs.init(function(err, message) {
 	if (err) console.log(err);
 	else {
 		console.log("Initialized tables--ready to query the DB");
+		// addUser('test@gmail.com', 'test', 'female', '18-24', 'usa', ['father', 'son'], ['1', '2'], ['2', '3'], function (err, data) {
+		// 	console.log("add user call")
+		// 	console.log(err)
+		// 	console.log(data)
+		// });
+		// updateProfile("test@gmail.com", '1 - 2',  "female", "india", function(err, data) {
+		// 	console.log("in update prof dynamo callback")
+		// 	console.log(err)
+		// 	console.log(data)
+		// });
 	}
 });
 
@@ -23,6 +33,7 @@ var addUser = function(email, password, gender, age, origin, looking_for, img_id
 		fam_friend_ids: fam_friend_ids
 	}
 	kvs.postUser(params, function(err, data) {
+		console.log("in bacll back of kvs call")
 		if (err) {
 			console.log(err);
 			callback(err, null);
@@ -101,12 +112,25 @@ var getFamFriend = function(email, callback) {
 	});
 }
 
+var updateProfile = function(currUser, age, gender, origin, callback) {
+	console.log("trying to update profile")
+	kvs.updateProfile(currUser, age, gender, origin, function(err, data) {
+		if (err) {
+			console.log("in dynamo updateprofile definition just errored")
+			console.log(err);
+		} else {
+			callback(null, data);
+		}
+	});
+};
+
 var database = {
 	addUser: addUser,
 	getUser: getUser,
 	getFamFriend: getFamFriend,
 	addFamFriend: addFamFriend,
-	checkLogin: checkLogin
+	checkLogin: checkLogin,
+	updateProfile: updateProfile
 }
 
 module.exports = database;

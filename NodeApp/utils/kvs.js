@@ -33,7 +33,7 @@ var users = vogels.define('user', {
         email : joi.string(),
         password : joi.string(),
         gender: joi.string(),
-        age : joi.number(),
+        age : joi.string(),
         origin : joi.string(),
         looking_for : vogels.types.stringSet(),
         img_ids : vogels.types.stringSet(),
@@ -121,6 +121,7 @@ var init = function(callback) {
 // Add user to the users table
 var postUser = function(params, callback) {
     if (hasInit) {
+        console.log("in post user kvs")
         users.create(params, function(err, data) {
             if (err) {
                 console.log(err);
@@ -240,6 +241,24 @@ var checkPassword = function(email, password, callback) {
     }
 };
 
+var updateProfile = function(currUser, age, gender, origin, callback) {
+    if (hasInit) {
+        users.update({email: currUser, age: age, gender: gender, origin: origin}, 
+            function(err, data) {
+            if (err) {
+                console.log(err);
+                console.log("errored in kvs")
+                callback(err, null);
+            } else {
+                callback(null, "OK");
+            }
+        });
+    } else {
+        console.log("Tables not yet initialized--call init first!");
+        callback("Table not yet initialized--call init first!", null);
+    }
+};
+
 var kvs = {
     init: init,
     postUser: postUser,
@@ -247,7 +266,8 @@ var kvs = {
     postFamFriend: postFamFriend,
     retrieveFamFriend: retrieveFamFriend,
     checkPassword: checkPassword,
-    addFamFriendToUser: addFamFriendToUser
+    addFamFriendToUser: addFamFriendToUser,
+    updateProfile: updateProfile
 }
 
 module.exports = kvs;

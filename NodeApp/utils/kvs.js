@@ -215,6 +215,22 @@ var addFamFriendToUser = function(user_email, fam_friend_id, callback) {
     }
 };
 
+var addImageToFamFriend = function(id, img_ids, callback) {
+    if (hasInit) {
+        famFriends.update({id: id, img_ids : img_ids}, function(err, data) {
+            if (err) {
+                console.log(err);
+                callback(err, null);
+            } else {
+                callback(null, "OK");
+            }
+        });
+    } else {
+        console.log("Tables not yet initialized--call init first!");
+        callback("Table not yet initialized--call init first!", null);
+    }
+};
+
 // check if a user exists and password matches
 var checkPassword = function(email, password, callback) {
     // query the users table for the email and matching password and execute callback
@@ -266,7 +282,8 @@ var kvs = {
     retrieveFamFriend: retrieveFamFriend,
     checkPassword: checkPassword,
     addFamFriendToUser: addFamFriendToUser,
-    updateProfile: updateProfile
+    updateProfile: updateProfile,
+    addImageToFamFriend: addImageToFamFriend
 }
 
 module.exports = kvs;

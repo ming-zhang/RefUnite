@@ -15,7 +15,7 @@
     <link href="/stylesheets/dashboard.css" rel="stylesheet">
   </head>
 
-  <body ng-controller = "dashboardController">
+  <body ng-controller = "dashboardController" class="p-3 mb-2 bg-secondary">
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <span class="navbar-brand center">RefUnite</span>
@@ -33,18 +33,20 @@
     
     <div class="container user-container" ng-if="sessionUsername != null">
       <div class="jumbotron">
-        <div class="h5">Landing page. Shows top XX matches for each family/friends profile created.</div>
+        <h5><strong>Select the family/friend whom you would like to check matches for, then click "Recognize" </strong></h5>
+        <br>
         <div >
-          <h3>{{ sessionUsername }}</h3>
-          <ul ng-repeat="x in famFriendsIds">
-            <li><a ng-href="/recognize/{{x}}" ng-click="setRecognizeVisibility()">{{x}}</a></li>
+          <ul ng-repeat="x in famFriends">
+            <li><a ng-href="/recognize/{{x.id}}" ng-click="setRecognizeVisibility()">{{x.name}}</a></li>
           </ul>
-          <button type="button"id="recognize" class="btn btn-success"ng-click="getRecognize()" ng-style = "disableTagButton"
+          <button class="p-3 mb-2 bg-primary text-white" type="button"id="recognize" class="btn btn-success"ng-click="getRecognize()" ng-style = "disableTagButton"
             style="width:100%;">
             <span class="navhead">Recognize</span>
           </button>
           <!-- Display the matches -->
           <div class="grid">
+            <br>
+            <h5>{{ heading }}</h5>
             <div ng-repeat="x in ids" class="grid-square" style="margin: 15px;">
                 <a target="_blank">
                   <img  ng-src="{{ imageURLs[x] }}" style="width: 200px; height: 300px;"/>

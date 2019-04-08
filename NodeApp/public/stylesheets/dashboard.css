@@ -1,3 +1,17 @@
 .user-container {
   margin-top: 2rem;
 }
+
+
+a {
+	font-size: 20px;
+}
+
+
+a:active {
+    border: 2px solid #42bff4;
+}
+
+a:focus {
+    border: 2px solid #42bff4;
+}

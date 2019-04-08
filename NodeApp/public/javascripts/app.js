@@ -135,8 +135,8 @@ app.controller('dashboardController', function($scope, $http) {
       method: "GET",
     }).success(function(res) {
       console.log("Fam Friends ids working");
-      $scope.famFriendsIds = res.famFriendsIds;
-      console.log($scope.famFriendsIds); 
+      $scope.famFriends = res.famFriends;
+      console.log($scope.famFriends); 
     }).error(function(res) {
       console.log('Error callback in app js');
       console.log(response);
@@ -155,6 +155,7 @@ app.controller('dashboardController', function($scope, $http) {
       });
       $scope.ids = uniqueImages;
       $scope.imageURLs = {};
+      $scope.heading = "We found matches with these images:";
       for (i in $scope.ids) {
         $scope.getImage = function() {
           myurl = 'https://s3.amazonaws.com/tracethefacetest/' + $scope.ids[i] + '.jpg';

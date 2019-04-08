@@ -118,7 +118,36 @@ router.get('/famfriendids', function(req, res) {
     } else {
       var famFriendsIds = data.fam_friend_ids; 
       console.log("The ids are: " + famFriendsIds); 
-      res.json({famFriendsIds});
+
+      var famFriends = [];
+      // get names for each id
+      for (var i = 0; i < famFriendsIds.length; i++) {
+        db.getFamFriend(famFriendsIds[i], function(err2, data2) {
+          if (err2 || !data2) {
+            console.log('This login is not going well');
+            if (err2) console.log(err2);
+            //res.redirect('/');
+            //res.sendFile(path.join(__dirname, '../', 'views', 'login.html'));
+          } else {
+              var name = data2.name;
+              if (name == null) {
+                  name = "null";
+              }
+              var famFriendObj = {
+                id: data2.id,
+                name: name
+              };
+
+              famFriends.push(famFriendObj);
+              if (famFriends.length == famFriendsIds.length) {
+                res.json({famFriends});
+              }
+
+          }
+        });
+      }
+
+      
       //req.session.username = username;
       //res.redirect('/dashboard');
       //res.sendFile(path.join(__dirname, '../', 'views', 'dashboard.html'));

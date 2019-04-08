@@ -178,6 +178,7 @@ var postFamFriend = function(params, callback) {
 
 // get the famFriend info as a JSON object for a FamFriend
 var retrieveFamFriend = function(id, callback) {
+    console.log("getting fam friend " + id);
     if (hasInit) {
         // get attributes for famFriend
         famFriends.get(id, function(err, data) {
@@ -189,7 +190,8 @@ var retrieveFamFriend = function(id, callback) {
                 gender: attrs.gender,
                 age : attrs.age,
                 origin : attrs.origin,
-                user_email : attrs.user_email
+                user_email : attrs.user_email,
+                name: attrs.name
             };
             callback(null, info);
         });

@@ -106,8 +106,8 @@ var addFamFriend = function(name, img_ids, relation, gender, age, origin, user_e
 
 
 // get the info in the form of a JSON object for a famFriend
-var getFamFriend = function(email, callback) {
-	kvs.retrieveFamFriend(email, function(err, info) {
+var getFamFriend = function(id, callback) {
+	kvs.retrieveFamFriend(id, function(err, info) {
 		if (err) {
 			console.log(err);
 			callback(err, null);

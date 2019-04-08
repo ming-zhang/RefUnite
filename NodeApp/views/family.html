@@ -17,7 +17,7 @@
     <!-- Include your custom css file here if you're making one -->
   </head>
 
-  <body ng-controller="familyController" class="p-3 mb-2 bg-secondary">
+  <body id="body" ng-controller="familyController" class="p-3 mb-2 bg-secondary">
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <span class="navbar-brand center">RefUnite</span>
@@ -102,7 +102,7 @@
 
           <!-- <input id="famFriendId" type="text" class="input famFriendId" ng-model="famFriendId" name="famFriendId"/>
           <input id="imageIds" type="text" class="input imageIds" ng-model="imageIds" name="imageIds"/> -->
-        <input ng-controller="familyController" type="text" ng-model="famfriendid" id="famFriendId"/>
+        <input type="text" ng-model="famfriendid" id="famFriendId"/>
         <input type="text" ng-model="imageids" id="imageIds"/>
 
         <button class="p-3 mb-2 bg-primary text-white" type="button" name="addImageToFamFriend" ng-click="addImageToFamFriend()" id="addImageToFamFriend">Upload</button>
@@ -210,8 +210,8 @@
 
                     var ids = document.getElementById("imageIds").value;
 
-                    document.getElementById("famFriendId").value = famFriendId;
-                    document.getElementById("imageIds").value = ids + "," + data.Key;
+                    angular.element(document.getElementById('body')).scope().famFriendId = famFriendId;
+                    angular.element(document.getElementById('body')).scope().imageIds = ids + "," + data.Key;
 
                 });
             }

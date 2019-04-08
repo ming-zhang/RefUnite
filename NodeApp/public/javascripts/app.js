@@ -335,15 +335,14 @@ app.controller('familyController', function($scope, $http) {
   };
 
   $scope.addImageToFamFriend = function() {
-    console.log("HEREHEREHERE");
-    console.log($scope.famfriendid);
-    console.log($scope.imageids);
-    var idsStr = $scope.imageids;
+    console.log($scope.famFriendId);
+    console.log($scope.imageIds);
+    var idsStr = $scope.imageIds;
     $http({
       url: '/addImageToFamFriend',
       method: "POST",
       data: {
-        'id': $scope.famfriendid,
+        'id': $scope.famFriendId,
         'img_ids': idsStr.split(",")
         
       }

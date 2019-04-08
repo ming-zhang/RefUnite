@@ -87,21 +87,36 @@ const getTrainingImages = (famFriendId) => {
                   filename: famFriendId + "_" + i + ".jpg"
                 }
         console.log(ids[i]);
-         download(url, options, function(err){
+
+          (function(i) {
+ 
+                console.log("This absolutely sucks- before if statement"); 
+                  console.log("idx2 " + i);
+
+            download(url, options, function(err) {
               if(err) throw err
-              //const image = fr.loadImage('./pictures/faces/1_3.jpg');
-              //const detector = fr.FaceDetector();
-              //const targetSize = 150;
-              //const faceImages = detector.detectFaces(image, targetSize);
-              //Save faceImages to pictures/faces/face_0.jpg ++
-              //const uniqueId = url.substring(38,45); 
-              //faceImages.forEach((img, i) => fr.saveImage(`./pictures/faces/1_3.png`,img));  
-              console.log("This absolutely sucks- before if statement"); 
-              console.log(ids.length - 1); 
-              console.log(i); 
 
               setTimeout(function(){
-              if(i == ids.length && flag) {
+              if(i == ids.length - 1 && flag) {
+                // CROP IMAGE
+                for (var k = 0; k < ids.length; k++) {
+
+                  (function(k) {
+                    console.log("CROP " + k);
+               
+                  const image = fr.loadImage('./pictures/faces/' + famFriendId + "_" + k + ".jpg");
+                            const detector = fr.FaceDetector();
+                            const targetSize = 150;
+                            const faceImages = detector.detectFaces(image, targetSize);
+                            //Save faceImages to pictures/faces/face_0.jpg ++
+                            faceImages.forEach((img, j) => fr.saveImage('./pictures/faces/' + famFriendId + "_" + k + ".jpg",img));
+                
+               
+                })(k);
+
+                }
+
+                
                 console.log("we are inside if statement"); 
                 flag = false; 
                 const dataPath = path.resolve('./pictures/faces');
@@ -144,12 +159,20 @@ const getTrainingImages = (famFriendId) => {
                   console.log("Model json is being updated");     
                           }
                         },5000);
-                        })
-                        console.log("Download is done"); 
+                        });
+             
+              })(i);
+
+         
+
+              console.log("Download is done"); 
       }
+
     }
   });
-  
+
+
+              
 
 }
 

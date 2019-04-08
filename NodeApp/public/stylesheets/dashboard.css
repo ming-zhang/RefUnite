@@ -3,15 +3,15 @@
 }
 
 
-a {
+.famFriendLink {
 	font-size: 20px;
 }
 
 
-a:active {
+.famFriendLink:active {
     border: 2px solid #42bff4;
 }
 
-a:focus {
+.famFriendLink:focus {
     border: 2px solid #42bff4;
 }

@@ -17,7 +17,7 @@
     <!-- Include your custom css file here if you're making one -->
   </head>
 
-  <body ng-controller="familyController">
+  <body ng-controller="familyController" class="p-3 mb-2 bg-secondary">
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <span class="navbar-brand center">RefUnite</span>
@@ -36,26 +36,29 @@
     <!-- User Content -->
     <div class="container user-container">
       <div class="jumbotron">
-        <div class="h5">FAMILY FRIENDS</div>
-        <h6> Have a left sidebar listing all existing profiles and an add profile button. Main content allows edit/deleting a profile.</h6>
-        <!-- Display the users -->
-      </div>
-    </div>
+        
+      <h5><strong>Add a family or friend that you are looking for</strong></h5>
+      <br>
 
-
-     <input type="text" class="input name" placeholder="name" ng-model="name" /><br>
-     <input type="text" class="input relation" placeholder="relation" ng-model="relation" />
+    <div class="form-group">
+     <input type="text" class="input name form-control" placeholder="Name" ng-model="name" /><br>
+     <input type="text" class="input relation form-control" placeholder="Relation to you" ng-model="relation" />
+     <br>
      <div>
+      <div class="form-group">
         <label> Gender:
-          <select name="gender" ng-model="gender">
+          <select multiple class="form-control" name="gender" ng-model="gender">
             <option value="Female">Female</option>
             <option value="Male">Male</option>
+            <option value="Non-binary">Non-binary</option>
             <option value="Other">Other</option>
           </select>
         </label>
-        </br>
+      </div>
+        
+        <div class="form-group">
         <label> Age: 
-          <select name="age" ng-model="age">
+          <select multiple class="form-control" name="age" ng-model="age">
             <option value="Under18">Under 18</option>
             <option value="18-24">18-24</option>
             <option value="25-34">25-34</option>
@@ -67,9 +70,11 @@
             <option value="Unknown">Unknown</option>
           </select>
         </label>
+      </div>
         </br>
+        <div class="form-group">
         <label> Region of Origin: 
-          <select name="region" ng-model="region">
+          <select multiple class="form-control" name="region" ng-model="region">
             <option value="Africa">Africa</option>
             <option value="Asia">Asia</option>
             <option value="Caribbean">Caribbean</option>
@@ -83,14 +88,20 @@
           </select>
         </label>
       </div>
+      </div>
+      </div>
 
-      <button type="button" name="addFamFriend" ng-click="addFamFriend()" id="addFamFriend"
+
+      <button class="p-3 mb-2 bg-primary text-white" type="button" name="addFamFriend" ng-click="addFamFriend()" id="addFamFriend"
       onclick="showFileUpload()" >Add</button>
 
       <br><br><br>
 
 
         <div id="demo"></div>
+      </div>
+    </div>
+
 
 
 

@@ -1,9 +1,11 @@
 /**
  * FilePond Custom Styles
  */
- body {
-     background-color: lightblue; 
- }
+.user-container {
+  margin-top: 2rem;
+}
+
+
  .filepond--drop-label {
 	color: #4c4e53;
 }

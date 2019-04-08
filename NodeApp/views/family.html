@@ -99,8 +99,19 @@
 
 
         <div id="demo"></div>
+
+          <!-- <input id="famFriendId" type="text" class="input famFriendId" ng-model="famFriendId" name="famFriendId"/>
+          <input id="imageIds" type="text" class="input imageIds" ng-model="imageIds" name="imageIds"/> -->
+        <input ng-controller="familyController" type="text" ng-model="famfriendid" id="famFriendId"/>
+        <input type="text" ng-model="imageids" id="imageIds"/>
+
+        <button class="p-3 mb-2 bg-primary text-white" type="button" name="addImageToFamFriend" ng-click="addImageToFamFriend()" id="addImageToFamFriend">Upload</button>
+        <!-- <div id="uploadBtn"></div> -->
+        
       </div>
     </div>
+
+    <div id="addedFamFriendId" style="visibility: hidden;" >{{ addedFamFriendId }}</div>
 
 
 
@@ -142,6 +153,9 @@
             FilePond.create(
               document.querySelector('.filepond')
             );
+
+            // document.getElementById('uploadBtn').innerHTML = ''
+            
         }
 
         // set up s3 connection
@@ -157,12 +171,15 @@
 
     <script>
 
+
     // set up s3 connection
     var s3 = new AWS.S3({
         accessKeyId: "AKIAIBIOLFSQYUBEA7XQ",
       secretAccessKey: "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",
       region: 'us-east-1'
     });
+
+    var uploaded_pics = [];
 
     // set custom FilePond file processing method
     FilePond.setOptions({
@@ -185,6 +202,16 @@
                     //addImageToFamFriend(); 
                     // pass file unique id back to filepond
                     load(data.Key);
+                    console.log("added image " + data.Key);
+                    uploaded_pics.push(data.Key);
+                    console.log(uploaded_pics)
+                    var famFriendId = document.getElementById("addedFamFriendId").innerHTML;
+                    console.log(document.getElementById("addedFamFriendId").innerHTML);
+
+                    var ids = document.getElementById("imageIds").value;
+
+                    document.getElementById("famFriendId").value = famFriendId;
+                    document.getElementById("imageIds").value = ids + "," + data.Key;
 
                 });
             }

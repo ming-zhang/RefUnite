@@ -284,8 +284,8 @@ app.controller('profileController', function($scope, $http) {
 
 app.controller('familyController', function($scope, $http) {
   console.log("In familyController");
-  $scope.getSessionUsername = function() {
 
+  $scope.getSessionUsername = function() {
     $http({
       url: '/dashboardSession',
       method: "GET",
@@ -325,13 +325,37 @@ app.controller('familyController', function($scope, $http) {
         'region': $scope.region
       }
     }).success(function(res) {
-      // show photo upload
+      $scope.addedFamFriendId = res.addedFamFriendId;
+      //console.log("just added " + $scope.addedFamFriendId); 
 
     }).error(function(res) {
       console.log('Error callback in app js');
       console.log(res);
     });
   };
+
+  $scope.addImageToFamFriend = function() {
+    console.log("HEREHEREHERE");
+    console.log($scope.famfriendid);
+    console.log($scope.imageids);
+    var idsStr = $scope.imageids;
+    $http({
+      url: '/addImageToFamFriend',
+      method: "POST",
+      data: {
+        'id': $scope.famfriendid,
+        'img_ids': idsStr.split(",")
+        
+      }
+    }).success(function(res) {
+      console.log("WORKED")
+
+    }).error(function(res) {
+      console.log('Error callback in app js');
+      console.log(res);
+    });
+  };
+
 });
 
 // Template for adding a controller

@@ -3,6 +3,7 @@
  */
 .user-container {
   margin-top: 2rem;
+  width: fit-content;
 }
 
 
@@ -26,4 +27,13 @@
 
 .filepond--drip-blob {
 	background-color: #7f8a9a;
+}
+
+.form-inputs {
+	display: inline-block;
+}
+
+.form-group {
+	display: inline-block;
+	padding-right: 20px;
 }

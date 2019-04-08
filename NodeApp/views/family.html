@@ -44,7 +44,7 @@
      <input type="text" class="input name form-control" placeholder="Name" ng-model="name" /><br>
      <input type="text" class="input relation form-control" placeholder="Relation to you" ng-model="relation" />
      <br>
-     <div>
+     <div class="form-inputs">
       <div class="form-group">
         <label> Gender:
           <select multiple class="form-control" name="gender" ng-model="gender">
@@ -71,7 +71,7 @@
           </select>
         </label>
       </div>
-        </br>
+
         <div class="form-group">
         <label> Region of Origin: 
           <select multiple class="form-control" name="region" ng-model="region">
@@ -90,7 +90,7 @@
       </div>
       </div>
       </div>
-
+      <br>
 
       <button class="p-3 mb-2 bg-primary text-white" type="button" name="addFamFriend" ng-click="addFamFriend()" id="addFamFriend"
       onclick="showFileUpload()" >Add</button>

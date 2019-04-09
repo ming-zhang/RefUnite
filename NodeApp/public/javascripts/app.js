@@ -338,12 +338,14 @@ app.controller('familyController', function($scope, $http) {
     console.log($scope.famFriendId);
     console.log($scope.imageIds);
     var idsStr = $scope.imageIds;
+    var idsArr = idsStr.split(",");
+    idsArr.shift();
     $http({
       url: '/addImageToFamFriend',
       method: "POST",
       data: {
         'id': $scope.famFriendId,
-        'img_ids': idsStr.split(",")
+        'img_ids': idsArr
         
       }
     }).success(function(res) {

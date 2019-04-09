@@ -102,10 +102,10 @@
 
           <!-- <input id="famFriendId" type="text" class="input famFriendId" ng-model="famFriendId" name="famFriendId"/>
           <input id="imageIds" type="text" class="input imageIds" ng-model="imageIds" name="imageIds"/> -->
-        <input type="text" ng-model="famfriendid" id="famFriendId"/>
-        <input type="text" ng-model="imageids" id="imageIds"/>
-
-        <button class="p-3 mb-2 bg-primary text-white" type="button" name="addImageToFamFriend" ng-click="addImageToFamFriend()" id="addImageToFamFriend">Upload</button>
+        <input style="visibility: hidden;" type="text" ng-model="famfriendid" id="famFriendId"/>
+        <input style="visibility: hidden;" type="text" ng-model="imageids" id="imageIds"/>
+        <br>
+        <button style="visibility: hidden;" class="p-3 mb-2 bg-primary text-white" type="button" name="addImageToFamFriend" ng-click="addImageToFamFriend()" id="addImageToFamFriend">Upload</button>
         <!-- <div id="uploadBtn"></div> -->
         
       </div>
@@ -154,7 +154,8 @@
               document.querySelector('.filepond')
             );
 
-            // document.getElementById('uploadBtn').innerHTML = ''
+            document.getElementById("addImageToFamFriend").setAttribute("style", "");
+
             
         }
 
@@ -208,7 +209,7 @@
                     var famFriendId = document.getElementById("addedFamFriendId").innerHTML;
                     console.log(document.getElementById("addedFamFriendId").innerHTML);
 
-                    var ids = document.getElementById("imageIds").value;
+                    var ids = angular.element(document.getElementById('body')).scope().imageIds;
 
                     angular.element(document.getElementById('body')).scope().famFriendId = famFriendId;
                     angular.element(document.getElementById('body')).scope().imageIds = ids + "," + data.Key;

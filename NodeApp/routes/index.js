@@ -82,12 +82,27 @@ router.get('/family', function(req, res) {
 router.post('/addFamFriend', function(req, res) {
   console.log("in ADDFAMFRIEND");
   console.log(req.body);
-  db.addFamFriend(req.body.name, [], req.body.relation, req.body.gender, req.body.age, req.body.region, req.session.username, function(err, data) {
+  db.addFamFriend(req.body.name, [], req.body.relation, req.body.gender[0], req.body.age[0], req.body.region[0], req.session.username, function(err, data) {
     if (err || !data) {
       console.log("Adding fam friend error");
       if (err) console.log(err);
     } else {
       console.log("Added fam friend to dynamo");
+      var addedFamFriendId = data.id;
+      res.json({addedFamFriendId});
+    }
+  });
+});
+
+router.post('/addImageToFamFriend', function(req, res) {
+  console.log("in addImageToFamFriend");
+  console.log(req.body);
+  db.addImageToFamFriend(req.body.id, req.body.img_ids, function(err, data) {
+    if (err || !data) {
+      console.log("addImageToFamFriend error");
+      if (err) console.log(err);
+    } else {
+      console.log("AaddImageToFamFriend");
     }
   });
 });

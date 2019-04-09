@@ -97,7 +97,7 @@ var addFamFriend = function(name, img_ids, relation, gender, age, origin, user_e
 					callback(err2, null);
 				} else {
 					console.log("Added famFriend to " + user_email);
-					callback(null, "OK");
+					callback(null, data);
 				}
 			});
 		}
@@ -131,6 +131,7 @@ var updateProfile = function(currUser, age, gender, origin, callback) {
 
 var addImageToFamFriend = function(id, img_ids, callback) {
 	console.log("Adding images to fam friend")
+	console.log("IDS " + img_ids);
 	kvs.addImageToFamFriend(id, img_ids, function(err, data) {
 		if (err) {
 			console.log("error adding image to fam friend")

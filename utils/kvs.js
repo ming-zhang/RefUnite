@@ -276,6 +276,39 @@ var updateProfile = function(currUser, age, gender, origin, callback) {
     }
 };
 
+
+var getEmailOrLinkFromImageId = function(image_id, callback) {
+    if (hasInit) {
+        users.scan().where('img_ids').contains(image_id).exec(
+            function(err, data) {
+                if (err) {
+                    console.log(err);
+                    callback(err, null);
+                } else {
+                    console.log(data);
+                    var items = data.Items;
+                    
+                    var out;
+                    if (items.length == 0) {
+                        out = image_id;
+                    } else {
+                        out = items[0].attrs.email;
+                    }
+                    
+                    // send results
+                    callback(null, out);
+                }
+            });
+    } else {
+        console.log("Tables not yet initialized--call init first!");
+        callback("Table not yet initialized--call init first!", null);
+    }
+};
+
+
+
+
+
 var kvs = {
     init: init,
     postUser: postUser,
@@ -285,7 +318,8 @@ var kvs = {
     checkPassword: checkPassword,
     addFamFriendToUser: addFamFriendToUser,
     updateProfile: updateProfile,
-    addImageToFamFriend: addImageToFamFriend
+    addImageToFamFriend: addImageToFamFriend,
+    getEmailOrLinkFromImageId: getEmailOrLinkFromImageId
 }
 
 module.exports = kvs;

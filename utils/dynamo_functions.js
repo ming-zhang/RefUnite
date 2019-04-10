@@ -17,8 +17,9 @@ kvs.init(function(err, message) {
 		// 	console.log(err)
 		// 	console.log(data)
 		// });
-		// addFamFriend("famFriendName", [], "son", "male", "18 - 34", "Asia", "test@test.com", function(err, data){
+		// getEmailOrLinkFromImageId("reeham", function(err, data){
 		// 	console.log(err);
+		// 	console.log(data);
 		// });
 
 	}
@@ -142,6 +143,17 @@ var addImageToFamFriend = function(id, img_ids, callback) {
 	});
 };
 
+var getEmailOrLinkFromImageId = function(image_id, callback) {
+	kvs.getEmailOrLinkFromImageId(image_id, function(err, data) {
+		if (err) {
+			console.log("error in getUserFromImageId");
+			console.log(err);
+		} else {
+			callback(null, data);
+		}
+	});
+};
+
 var database = {
 	addUser: addUser,
 	getUser: getUser,
@@ -149,7 +161,8 @@ var database = {
 	addFamFriend: addFamFriend,
 	checkLogin: checkLogin,
 	updateProfile: updateProfile,
-	addImageToFamFriend: addImageToFamFriend
+	addImageToFamFriend: addImageToFamFriend,
+	getEmailOrLinkFromImageId: getEmailOrLinkFromImageId
 }
 
 module.exports = database;

@@ -65,6 +65,22 @@ router.get('/recognize/:id', function(req, res) {
   s3.getTrainingImages(req.params.id); 
 });
 
+router.get('/imageDetails/:id', function(req, res) {
+  
+  var id = req.params.id; 
+
+    db.getEmailOrLinkFromImageId(id, function(err, data) {
+    if (err || !data) {
+      console.log("Getting image details err");
+      if (err) console.log(err);
+    } else {
+      console.log("GOT EMAIL/LINK " + data);
+      var emailOrLink = data;
+      res.json({emailOrLink});
+    }
+  });
+});
+
 router.get('/reference', function(req, res) {
   res.sendFile(path.join(__dirname, '../', 'views', 'reference.html'));
 });

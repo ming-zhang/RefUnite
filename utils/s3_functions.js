@@ -64,6 +64,30 @@ const testImages = () => {
           });
       }
   });
+
+  var params2 = {Bucket: 'refunite-user-images'};
+  s3.listObjects(params2, function(err, data){
+    var bucketContents = data.Contents;
+      for (var i = 0; i < bucketContents.length; i++){
+        var urlParams = {Bucket: 'refunite-user-images', Key: bucketContents[i].Key};
+          s3.getSignedUrl('getObject',urlParams, function(err, url){
+            console.log('the url of the image is', url);
+            // Save image to folder
+            const startingIndex = url.lastIndexOf("/"); 
+            const endingIndex = url.lastIndexOf("."); 
+            const uniqueId = url.substring(startingIndex + 1, endingIndex); 
+            var options = {
+              directory: './pictures/testing',
+              filename: uniqueId + ".jpg"
+            }
+            console.log("Whats up"); 
+            //Folder for training data when we have upload functionality working
+            download(url, options, function(err){
+              if(err) throw err  
+            })
+          });
+      }
+  });
 }
 
 const getTrainingImages = (famFriendId) => {

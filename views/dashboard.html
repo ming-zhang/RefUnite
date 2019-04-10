@@ -48,7 +48,7 @@
             <br>
             <h5>{{ heading }}</h5>
             <div ng-repeat="x in ids" class="grid-square" style="margin: 15px;">
-                <a target="_blank">
+                <a ng-href="/imageDetails/{{x}}">
                   <img  ng-src="{{ imageURLs[x] }}" style="width: 200px; height: 300px;"/>
                 </a>
                 <span class="caption" style="display: block; font-size: 10px"> {{ x }}</span>

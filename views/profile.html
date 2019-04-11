@@ -13,6 +13,7 @@
     <!-- Custom styles for this template-->
     <link href="/stylesheets/common.css" rel="stylesheet">
     <link href="/stylesheets/dashboard.css" rel="stylesheet">
+    <link href="/stylesheets/login.css" rel="stylesheet">
     <!-- Include your custom css file here if you're making one -->
   </head>
 
@@ -33,7 +34,7 @@
     <!-- Sample Content. You can either use this or make your own -->
 
     <!-- User Content -->
-    <div class="container user-container">
+    <div class="container user-container login-container">
       <div class="jumbotron">
         <div class="h5">USER PROFILE</div>
         <div id="profileNoEdit"> 
@@ -44,12 +45,13 @@
           <h6> Origin: {{origin}} </h6>
           <h6> Looking For: {{looking_for[0]}} </h6>
           <h6> Profile Images: {{ img_ids[0] }} </h6>
+          <button type="button" class="login-button" name="editProfile" ng-click="editProfile()" >Edit</button>
         </div>
-        <button type="button" class="login-button" name="editProfile" ng-click="editProfile()" >Edit</button>
+        
 
-        <div id="profileEdit" style="display: none">
+        <div id="profileEdit" style="display: none" >
         <label> Password: <input type="password" class="input password" placeholder="Password" ng-model="password" /> </label>
-
+        <br>
         <label>Gender:
           <select name="gender" ng-model="gender">
             <option value="Female">Female</option>
@@ -93,7 +95,8 @@
         </br>-->
 
         <br>
-        <input type="file" class="filepond" name="filepond" multiple data-max-file-size="3MB" data-max-files="3">
+        <input type="file" class="filepond" name="filepond" multiple data-max-file-size="3MB" data-max-files="4">
+        <br>
         <button type="button" class="login-button" name="Login" ng-click="backToProfile()" >Back</button>
         <button type="button" class="login-button" name="Next" ng-click="updateProfile()" id="finish">Update Profile</button>
 

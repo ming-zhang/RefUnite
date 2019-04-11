@@ -14,10 +14,11 @@
     <link href="/stylesheets/common.css" rel="stylesheet">
     <link href="/stylesheets/dashboard.css" rel="stylesheet">
     <link href="/stylesheets/login.css" rel="stylesheet">
+    <link href="/stylesheets/profile.css" rel="stylesheet">
     <!-- Include your custom css file here if you're making one -->
   </head>
 
-  <body ng-controller = "profileController">
+  <body ng-controller = "profileController" class="p-3 mb-2 bg-secondary">
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <span class="navbar-brand center">RefUnite</span>
@@ -34,18 +35,17 @@
     <!-- Sample Content. You can either use this or make your own -->
 
     <!-- User Content -->
-    <div class="container user-container login-container">
+    <div class="container user-container profile-container">
       <div class="jumbotron">
-        <div class="h5">USER PROFILE</div>
+        <div class="h5">My Profile: {{sessionUsername}}</div>
         <div id="profileNoEdit"> 
-          <h6> Display all info for current profile. Have an edit profile button. </h6>
           <br>
           <h6> Gender: {{gender}} </h6>
           <h6> Age: {{age}} </h6>
           <h6> Origin: {{origin}} </h6>
           <h6> Looking For: {{looking_for[0]}} </h6>
           <h6> Profile Images: {{ img_ids[0] }} </h6>
-          <button type="button" class="login-button" name="editProfile" ng-click="editProfile()" >Edit</button>
+          <button type="button" class="btn btn-primary" name="editProfile" ng-click="editProfile()" >Edit</button>
         </div>
         
 
@@ -97,8 +97,9 @@
         <br>
         <input type="file" class="filepond" name="filepond" multiple data-max-file-size="3MB" data-max-files="4">
         <br>
-        <button type="button" class="login-button" name="Login" ng-click="backToProfile()" >Back</button>
-        <button type="button" class="login-button" name="Next" ng-click="updateProfile()" id="finish">Update Profile</button>
+        <br>
+        <button type="button" class="btn btn-primary" name="Login" ng-click="backToProfile()" >Back</button>
+        <button type="button" class="btn btn-primary" name="Next" ng-click="updateProfile()" id="finish">Update Profile</button>
 
         <br>
         </div>

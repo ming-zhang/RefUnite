@@ -17,6 +17,7 @@
     "filepond": "^4.3.5",
     "filepond-plugin-file-encode": "^2.1.4",
     "formidable": "^1.2.1",
+    "import-fresh": "^3.0.0",
     "jade": "~1.11.0",
     "lru-cache": "*",
     "morgan": "~1.8.1",

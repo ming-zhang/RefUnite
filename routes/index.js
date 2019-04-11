@@ -4,7 +4,7 @@ var path = require('path');
 var db = require('../utils/dynamo_functions');
 var formidable = require('formidable');
 var s3Upload = require('../utils/s3_functions').upload;
-
+var importFresh = require('import-fresh');
 var download = require('download-file');
 var s3 = require('../utils/s3_functions'); 
 
@@ -55,14 +55,18 @@ router.get('/dashboard', function(req, res) {
   res.sendFile(path.join(__dirname, '../', 'views', 'dashboard.html'));
 });
 
-router.get('/recognize/:id', function(req, res) {
-  // DOWNLOAD TRAINING DATA
-  rimraf('./pictures/faces/*', function () { console.log('done'); }); 
-  console.log("IN RECOGNIZE ID");
-  console.log(req.params.id);
-  currentFamId = req.params.id; 
+router.get('/recognizeId/:id', function(req, res) {
+  // TRAIN DATA
+  rimraf('./pictures/faces/*', function () { 
+      console.log("IN RECOGNIZE ID");
+      console.log(req.params.id);
+      currentFamId = req.params.id; 
 
-  s3.getTrainingImages(req.params.id); 
+      s3.getTrainingImages(req.params.id);  
+      res.end();
+  }); 
+
+
 });
 
 router.get('/imageDetails/:id', function(req, res) {
@@ -195,67 +199,52 @@ router.get('/famfriendids', function(req, res) {
 
 router.get('/recognize',function(req,res){
 
-  const recognizer = fr.FaceRecognizer();
+  var recognizer = fr.FaceRecognizer();
   /*
   Load Our Previously Saved Train Data
   */
-  const modelState = require('../model.json');
-  recognizer.load(modelState);
+  var modelState = importFresh('../model.json');
+    
+    recognizer.load(modelState);
 
-  /*
-  Detect Face From Image
-  */
- var photosinTesting = "./pictures/testing"
- fs.readdir(photosinTesting, function (err, files) {
-  if (err) {
-    console.error("Could not list the directory.", err);
-    process.exit(1);
-  }
-  var listOfSimilarIds = []; 
-  files.forEach(function (file, index) {
-    console.log(file); 
-    // do stuff for each file
-    const image = fr.loadImage(photosinTesting + "/" + file); 
-    const detector = fr.FaceDetector();
-    const targetSize = 150;
-    const faceImage = detector.detectFaces(image, targetSize);
-    const faceRects  = detector.locateFaces(image).map(mmodRect => mmodRect.rect);
-    const faces = detector.getFacesFromLocations(image, faceRects, 150);
-    if(faceRects.length){
-        faceRects.forEach((rect,i)=>{
-        const predict = recognizer.predictBest(faces[i],0.69);
-          if(predict.className == currentFamId && predict.distance <= 0.6) {
-            console.log("The current fam id is:" + currentFamId); 
-            //const win= new fr.ImageWindow();
-            //win.setImage(image);
-            //win.addOverlay(rect);
-            //win.addOverlay(rect, `${predict.className} (${predict.distance})`);
-            //console.log(file); 
-            listOfSimilarIds.push(file.substring(0, file.length - 4)); 
-            console.log(predict.distance); 
-            console.log(predict.className); 
-          }
-        });
-      // fr.hitEnterToContinue();
+    /*
+    Detect Face From Image
+    */
+   var photosinTesting = "./pictures/testing"
+   fs.readdir(photosinTesting, function (err, files) {
+    if (err) {
+      console.error("Could not list the directory.", err);
+      process.exit(1);
     }
+    var listOfSimilarIds = []; 
+    files.forEach(function (file, index) {
+      console.log("----------"); 
+      console.log(file); 
+      // do stuff for each file
+      var image = fr.loadImage(photosinTesting + "/" + file); 
+      var detector = fr.FaceDetector();
+      var targetSize = 150;
+      var faceImage = detector.detectFaces(image, targetSize);
+      var faceRects  = detector.locateFaces(image).map(mmodRect => mmodRect.rect);
+      var faces = detector.getFacesFromLocations(image, faceRects, 150);
+      if (faceRects.length){
+          faceRects.forEach((rect,i)=>{
+          var predict = recognizer.predictBest(faces[i],0.69);
+              console.log(predict.distance); 
+              console.log(predict.className); 
+            if (predict.className == currentFamId && predict.distance <= 0.6) {
+              console.log("The current fam id is:" + currentFamId); 
+              listOfSimilarIds.push(file.substring(0, file.length - 4)); 
+              
+            }
+          });
+      }
 
-
-  /*
-  Send Output for one face to html page
-  */
- /*
-  if(faceImage.length){
-  const predictions=recognizer.predict(faceImage[0]);
-  res.send(predictions);
-  }
-  else{
-    res.status(400).json({msg:'Could Not Detect Face, Please try another picture'});
-  }
-  */
-  });
-  //for each id in listOfSimilarIds, do a router.get? some sort of get request.
-  //then put these into a json response
-  res.json(listOfSimilarIds);
+    });
+    //for each id in listOfSimilarIds, do a router.get? some sort of get request.
+    //then put these into a json response
+    res.json(listOfSimilarIds);
+    
   });
 });
 

@@ -15,7 +15,7 @@
     <link href="/stylesheets/dashboard.css" rel="stylesheet">
   </head>
 
-  <body ng-controller = "dashboardController" class="p-3 mb-2 bg-secondary">
+  <body ng-controller="dashboardController" class="p-3 mb-2 bg-secondary">
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <span class="navbar-brand center">RefUnite</span>
@@ -48,10 +48,11 @@
             <br>
             <h5>{{ heading }}</h5>
             <div ng-repeat="x in ids" class="grid-square" style="margin: 15px;">
-                <a ng-href="/imageDetails/{{x}}">
-                  <img  ng-src="{{ imageURLs[x] }}" style="width: 200px; height: 300px;"/>
-                </a>
-                <span class="caption" style="display: block; font-size: 10px"> {{ x }}</span>
+                <!-- <a ng-href="/imageDetails/{{x}}"> -->
+                  <img ng-click="getFamFriendDetails(x)" ng-src="{{ imageURLs[x] }}" style="width: 200px; height: 300px;"/>
+                  <h4><span ng-bind="detailsList[x]"></span></h4>
+                <!-- </a> -->
+                <span class="caption" style="display: block; font-size: 14px">ID: {{ x }}</span>
             </div>
           </div>
         </div>

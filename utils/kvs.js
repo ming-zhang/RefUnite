@@ -290,7 +290,7 @@ var getEmailOrLinkFromImageId = function(image_id, callback) {
                     
                     var out;
                     if (items.length == 0) {
-                        out = image_id;
+                        out = "No email found";
                     } else {
                         out = items[0].attrs.email;
                     }

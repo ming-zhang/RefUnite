@@ -44,7 +44,10 @@
           <h6> Age: {{age}} </h6>
           <h6> Origin: {{origin}} </h6>
           <h6> Looking For: {{looking_for[0]}} </h6>
-          <h6> Profile Images: {{ img_ids[0] }} </h6>
+          <h6> Profile Images: </h6>
+          <div ng-repeat="x in img_ids" class="grid-square" style="margin: 15px;">
+                  <img ng-src="https://s3.amazonaws.com/refunite-user-images/{{ x }}" style="width: 200px; height: 200px;"/>
+          </div>
           <br>
           <button type="button" class="btn btn-primary" name="editProfile" ng-click="editProfile()" >Edit</button>
         </div>

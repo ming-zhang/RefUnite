@@ -186,7 +186,18 @@ app.controller('dashboardController', function($scope, $http) {
     });
   };
 
-  $scope.setRecognizeVisibility = function() {
+  $scope.recognizeImage = function(id) {
+    $http({
+      url: '/recognizeId/' + id,
+      method: "GET",
+    }).success(function(res) {
+      console.log("Recognize image");
+    
+    }).error(function(res) {
+      console.log('Error callback in app js');
+      console.log(res);
+    });
+
     $scope.disableTagButton = {
       'visibility': 'visible'
     }; 

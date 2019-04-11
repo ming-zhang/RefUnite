@@ -55,14 +55,18 @@ router.get('/dashboard', function(req, res) {
   res.sendFile(path.join(__dirname, '../', 'views', 'dashboard.html'));
 });
 
-router.get('/recognize/:id', function(req, res) {
-  // DOWNLOAD TRAINING DATA
-  rimraf('./pictures/faces/*', function () { console.log('done'); }); 
-  console.log("IN RECOGNIZE ID");
-  console.log(req.params.id);
-  currentFamId = req.params.id; 
+router.get('/recognizeId/:id', function(req, res) {
+  // TRAIN DATA
+  rimraf('./pictures/faces/*', function () { 
+      console.log("IN RECOGNIZE ID");
+      console.log(req.params.id);
+      currentFamId = req.params.id; 
 
-  s3.getTrainingImages(req.params.id); 
+      s3.getTrainingImages(req.params.id);  
+      res.end();
+  }); 
+
+
 });
 
 router.get('/imageDetails/:id', function(req, res) {

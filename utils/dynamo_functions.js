@@ -168,6 +168,9 @@ var addImageToFamFriend = function(id, img_ids, callback) {
 };
 
 var getEmailOrLinkFromImageId = function(image_id, callback) {
+	if (!image_id.includes(".jpg")) {
+		image_id = image_id + ".jpg";
+	}
 	kvs.getEmailOrLinkFromImageId(image_id, function(err, data) {
 		if (err) {
 			console.log("error in getUserFromImageId");

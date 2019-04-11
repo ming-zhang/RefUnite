@@ -137,7 +137,6 @@ var getFamFriend = function(id, callback) {
 			console.log(err);
 			callback(err, null);
 		} else {
-			console.log("got fam friend ")
 			callback(null, info);
 		}
 	});

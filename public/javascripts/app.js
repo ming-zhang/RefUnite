@@ -182,7 +182,8 @@ app.controller('dashboardController', function($scope, $http) {
       });
       $scope.ids = uniqueImages;
       $scope.imageURLs = {};
-      $scope.heading = "We found matches with following images. Click on an image for contact information.";
+      $scope.heading = "We found matches with following images. Click on an image for the email address.";
+      $scope.showHeading = true;
       for (i in $scope.ids) {
         $scope.getImage = function() {
           myurl = 'https://s3.amazonaws.com/tracethefacetest/' + $scope.ids[i] + '.jpg';

@@ -36,7 +36,7 @@
         <br>
         <div >
           <ul ng-repeat="x in famFriends">
-            <li><a style="color: #0000EE" class="famFriendLink" ng-click="recognizeImage(x.id)"><u>{{x.name}}</u></a></li>
+            <li><a class="famFriendLink text-primary" ng-click="recognizeImage(x.id)"><u>{{x.name}}</u></a></li>
           </ul>
           <button class="p-3 mb-2 bg-primary text-white" type="button"id="recognize" class="btn btn-success"ng-click="getRecognize()" ng-style = "disableTagButton"
             style="width:100%;">
@@ -46,13 +46,18 @@
           <div class="grid">
             <br>
             <h5>{{ heading }}</h5>
+            <h5 ng-if="showHeading">
+              If there is no email available, click <a href="https://familylinks.icrc.org/europe/en/Pages/search-persons.aspx" target="_blank">here</a> to go to Trace the Face. Search by the ID and click on "Do you have information?" to reveal contact information.</h5>
+            </h5>
             <div ng-repeat="x in ids" class="grid-square" style="margin: 15px;">
                 <!-- <a ng-href="/imageDetails/{{x}}"> -->
-                  <img id="matchImg" ng-click="getFamFriendDetails(x)" onerror="getUrl()" ng-src="{{ imageURLs[x] }}" style="width: 200px; height: 300px;"/>
-                  <h4><span ng-bind="detailsList[x]"></span></h4>
+                  <img id="matchImg" ng-click="getFamFriendDetails(x)" onerror="getUrl()" ng-src="{{ imageURLs[x] }}" style="width: 200px; height: 200px;"/>
+                  <!-- <h6><span ng-bind="detailsList[x]"></span></h6> -->
+                  <h6 ng-if="detailsList[x] != 'No email found'"><a ng-href="mailto:{{ detailsList[x] }}">{{ detailsList[x] }}</a></h6>
+                  <h6 ng-if="detailsList[x] === 'No email found'">{{ detailsList[x] }}</h6>
                 <!-- </a> -->
-                <span class="caption" style="display: block; font-size: 14px">ID: {{ x }}</span>
-                <span class="caption" style="display: block; font-size: 14px">If there is no contact available, click <a href="https://familylinks.icrc.org/europe/en/Pages/search-persons.aspx" target="_blank">here</a> to go to Trace the Face and search by the ID above to reveal more information.</span>
+                <h6>ID: {{ x }}</h6>
+                <!-- <span class="caption" style="display: block; font-size: 14px">If there is no contact available, click <a href="https://familylinks.icrc.org/europe/en/Pages/search-persons.aspx" target="_blank">here</a> to go to Trace the Face and search by the ID above to reveal more information.</span> -->
             </div>
           </div>
         </div>

@@ -125,7 +125,7 @@ const getTrainingImages = (famFriendId) => {
                 for (var k = 0; k < ids.length; k++) {
 
                   (function(k) {
-                    console.log("CROP " + k);
+                    console.log("CROP " + ids[k]);
                
                   const image = fr.loadImage('./pictures/faces/' + famFriendId + "_" + k + ".jpg");
                             const detector = fr.FaceDetector();
@@ -178,7 +178,7 @@ const getTrainingImages = (famFriendId) => {
                   */
                   const modelState = recognizer.serialize();
                   fs.writeFileSync('model.json', JSON.stringify(modelState));  
-                  console.log("Model.json is being updated");     
+                  console.log("Model.json was updated");     
                           }
                         },5000);
                         });

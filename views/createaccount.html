@@ -17,7 +17,7 @@
     <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet">
   </head>
 
-  <body id="body" ng-controller="createAccountController">
+  <body id="body" ng-controller="createAccountController" class="p-3 mb-2 bg-secondary">
 
     <!-- "container login-container" -->
     <div class="container login-container" style="color: white; width:50%; border: solid 1px white">
@@ -73,10 +73,11 @@
       <br>
 
       <label> <input type="checkbox"  onchange="document.getElementById('finish').disabled = !this.checked;"/> I agree to the terms and conditions. </label>
-
-      <button type="button" class="login-button" name="Login" ng-click="backToLogin()" >Sign in instead</button>
-      <button type="button" disabled class="login-button" name="Next" ng-click="finish()" id="finish">Finish</button>
-
+      <center>
+      <button type="button" class="login-button bg-primary text-white" name="Login" ng-click="backToLogin()" >Sign in instead</button>
+      <br>
+      <button type="button" disabled class="login-button bg-primary text-white" name="Next" ng-click="finish()" id="finish">Finish</button>
+    </center>
     </div>
     
 

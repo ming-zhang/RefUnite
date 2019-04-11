@@ -18,16 +18,16 @@
     <!-- Include your custom css file here if you're making one -->
   </head>
 
-  <body ng-controller = "profileController" class="p-3 mb-2 bg-secondary">
+  <body ng-controller = "profileController" class="p-3 mb-2 bg-secondary" >
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <span class="navbar-brand center">RefUnite</span>
+      <a class="navbar-brand center" href="/">RefUnite</a>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
           <a class="nav-item nav-link" href="/dashboard">Dashboard</a>
           <a class="nav-item nav-link active" href="/profile">My Profile</a>
           <a class="nav-item nav-link" href="/family">Family & Friends</a>
-          <a class="nav-item nav-link" href="/">Logout ({{ sessionUsername }})</a>
+          <a class="nav-item nav-link" ng-controller="logoutController" ng-click="logoutDestroySession()">Logout ({{ sessionUsername }})</a>
         </div>
       </div>
     </nav>
@@ -35,7 +35,7 @@
     <!-- Sample Content. You can either use this or make your own -->
 
     <!-- User Content -->
-    <div class="container user-container profile-container">
+    <div class="container user-container profile-container" ng-if="sessionUsername != null">
       <div class="jumbotron">
         <div class="h5">My Profile: {{sessionUsername}}</div>
         <div id="profileNoEdit"> 
@@ -45,6 +45,7 @@
           <h6> Origin: {{origin}} </h6>
           <h6> Looking For: {{looking_for[0]}} </h6>
           <h6> Profile Images: {{ img_ids[0] }} </h6>
+          <br>
           <button type="button" class="btn btn-primary" name="editProfile" ng-click="editProfile()" >Edit</button>
         </div>
         

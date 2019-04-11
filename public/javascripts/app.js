@@ -57,7 +57,8 @@ app.controller('createAccountController', function($scope, $http) {
   $scope.finish = function() {
     // To check in the console if the variables are correctly storing the input:
     // console.log($scope.username, $scope.password);
-
+    console.log("INPUT famFriendId: " + $scope.famFriendId);
+    console.log("INPUT data.key s : " + $scope.imageIds);
     $http({
       url: '/registerUser',
       method: "POST",
@@ -66,7 +67,8 @@ app.controller('createAccountController', function($scope, $http) {
         'password': $scope.password,
         'gender': $scope.inputGender,
         'age': $scope.inputAge,
-        'region': $scope.inputRegion
+        'region': $scope.inputRegion, 
+        'imageids': $scope.imageIds,
       }
     }).success(function(response) {
       console.log('Success callback in app js');

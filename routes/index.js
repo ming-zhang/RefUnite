@@ -152,7 +152,10 @@ router.get('/famfriendids', function(req, res) {
 
       var famFriends = [];
       // get names for each id
-      for (var i = 0; i < famFriendsIds.length; i++) {
+      if (famFriendsIds == null || famFriendsIds == undefined) {
+        console.log("IT'S NULL");
+      } else {
+        for (var i = 0; i < famFriendsIds.length; i++) {
         db.getFamFriend(famFriendsIds[i], function(err2, data2) {
           if (err2 || !data2) {
             console.log('This login is not going well');
@@ -177,6 +180,8 @@ router.get('/famfriendids', function(req, res) {
           }
         });
       }
+      }
+      
 
       
       //req.session.username = username;
@@ -308,9 +313,9 @@ router.post('/registerUser', function(req, res) {
   var password = req.body.password;
   var gender = req.body.gender;
   var age = req.body.age;
-  var origin = req.body.origin;
+  var origin = req.body.region;
   var looking_for  = [];
-  var img_ids = []; 
+  var img_ids = req.body.imageids; 
   var fam_friend_ids = [];
 
   //var loginResult = "INCOMPLETE";

@@ -9,12 +9,18 @@
     <!-- Custom styles for this template-->
     <link href="/stylesheets/common.css" rel="stylesheet">
     <link href="/stylesheets/createaccount.css" rel="stylesheet">
+
+
+    <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
+    <!-- Custom styles for this template-->
+    <link href="/stylesheets/common.css" rel="stylesheet">
+    <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet">
   </head>
 
-  <body>
+  <body id="body" ng-controller="createAccountController">
 
-    <!--  -->
-    <div class="container login-container" ng-controller="createAccountController" style="color: white; width:50%; border: solid 1px white">
+    <!-- "container login-container" -->
+    <div class="container login-container" style="color: white; width:50%; border: solid 1px white">
       <label> Email: <input type="text" class="input username" placeholder="email@email" ng-model="emailaddr" /> </label>
       <label> Password: <input type="password" class="input password" placeholder="Password" ng-model="password" /> </label>
 
@@ -55,24 +61,120 @@
           </select>
         </label>
 
-        </br>
+        <!--</br>
         <input type="file" name="user-photo" file-model="myFile"/>
         <button ng-click="uploadFile()">upload me</button>
-        </br>
+        </br>-->
 
+      <br>
+      <input type="file" class="filepond" name="filepond" multiple data-max-file-size="3MB" data-max-files="3">
+
+      <br>
 
       <label> <input type="checkbox"  onchange="document.getElementById('finish').disabled = !this.checked;"/> I agree to the terms and conditions. </label>
 
       <button type="button" class="login-button" name="Login" ng-click="backToLogin()" >Sign in instead</button>
       <button type="button" disabled class="login-button" name="Next" ng-click="finish()" id="finish">Finish</button>
     </div>
+    
 
+
+
+    <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
+    <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet">
+    <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-image-exif-orientation/dist/filepond-plugin-image-exif-orientation.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-image-validate-size/dist/filepond-plugin-image-validate-size.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-file-encode/dist/filepond-plugin-file-encode.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
+    <script src="https://unpkg.com/filepond/dist/filepond.js"></script>
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.250.1.min.js"></script>
 
     <!-- Include these before the end of body tag in every HTML file -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+    <script>
+
+
+    // set up s3 connection
+    var s3 = new AWS.S3({
+        accessKeyId: "AKIAIBIOLFSQYUBEA7XQ",
+      secretAccessKey: "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",
+      region: 'us-east-1'
+    });
+
+    var uploaded_pics = [];
+
+    // set custom FilePond file processing method
+    FilePond.setOptions({
+        server: {
+            process: function(fieldName, file, metadata, load, error, progress, abort) {
+                console.log("hi we are in s3 upload"); 
+                s3.upload({
+                    Bucket: 'refunite-famfriend-images',
+                    Key: Date.now() + '_' + file.name,
+                    Body: file,
+                    ContentType: file.type,
+                    ACL: 'public-read'
+                }, function(err, data) {
+                    if (err) {
+                        error('Something went wrong');
+                        console.log(err); 
+                        return;
+                    }
+                    //console.log("after the callback"); 
+                    //addImageToFamFriend(); 
+                    // pass file unique id back to filepond
+                    load(data.Key);
+
+                    console.log("added image " + data.Key);
+                    uploaded_pics.push(data.Key);
+                    console.log(uploaded_pics)
+                    //var famFriendId = document.getElementById("addedFamFriendId").innerHTML;
+                    //console.log(document.getElementById("addedFamFriendId").innerHTML);
+
+                    //var ids = angular.element(document.getElementById('body')).scope().imageIds;
+
+                    //angular.element(document.getElementById('body')).scope().famFriendId = famFriendId;
+                    angular.element(document.getElementById('body')).scope().imageIds = uploaded_pics;
+
+                });
+            }
+        }
+    });
+
+        FilePond.registerPlugin(
+          
+          // encodes the file as base64 data
+          FilePondPluginFileEncode,
+          
+          // validates the size of the file
+          FilePondPluginFileValidateSize,
+          
+          // corrects mobile image orientation
+          FilePondPluginImageExifOrientation,
+          
+          // previews dropped images
+          FilePondPluginImagePreview
+        );
+
+        FilePond.create(
+              document.querySelector('.filepond')
+        );
+
+        //document.getElementById("addImageToFamFriend").setAttribute("style", "");
+
+        /*var showFileUpload = function() {
+            document.getElementById('demo').innerHTML = '<input type="file" class="filepond" name="filepond" multiple data-max-file-size="3MB" data-max-files="4"/>'
+            //Select the file input and use create() to turn it into a pond 
+        }*/
+
+    </script>
+
+    
   </body>
 
 </html>

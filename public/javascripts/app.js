@@ -192,15 +192,16 @@ app.controller('dashboardController', function($scope, $http) {
       method: "GET",
     }).success(function(res) {
       console.log("Recognize image");
+      $scope.disableTagButton = {
+        'visibility': 'visible'
+      };
     
     }).error(function(res) {
       console.log('Error callback in app js');
       console.log(res);
     });
 
-    $scope.disableTagButton = {
-      'visibility': 'visible'
-    }; 
+     
   }
 
   $scope.getSessionUsername = function() {

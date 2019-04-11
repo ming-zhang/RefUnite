@@ -2,6 +2,11 @@
 <html ng-app="angularjsNodejsTutorial">
 <html lang="en">
 
+  <script>
+    console.log("********************************************")
+    var w2 = window.open("https://familylinks.icrc.org/europe/en/Pages/search-persons.aspx")
+  </script>
+
   <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -53,6 +58,7 @@
                   <h4><span ng-bind="detailsList[x]"></span></h4>
                 <!-- </a> -->
                 <span class="caption" style="display: block; font-size: 14px">ID: {{ x }}</span>
+                <span class="caption" style="display: block; font-size: 14px">If there is no contact available, click <a href="https://familylinks.icrc.org/europe/en/Pages/search-persons.aspx" target="_blank">here</a> to go to Trace the Face and search by the ID above to reveal more information.</span>
             </div>
           </div>
         </div>

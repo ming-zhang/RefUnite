@@ -297,6 +297,34 @@ router.post('/checklogin', function(req, res) {
 
 });
 
+router.post('/updateUser', function(req, res) {
+
+  console.log("IN ROUTER.POST.updateUser");
+  var email = req.body.username;
+  var password = req.body.password;
+  var gender = req.body.gender;
+  var age = req.body.age;
+  var origin = req.body.region;
+  var looking_for  = [];
+  var img_ids = req.body.imageids; 
+  var fam_friend_ids = [];
+
+  db.addUser(email, password, gender, age, origin, looking_for, img_ids, fam_friend_ids, function(err, data) {
+    if (err) {
+      console.log('This registration is not going well');
+      if (err) console.log(err);
+      //res.redirect('/');
+      //res.sendFile(path.join(__dirname, '../', 'views', 'login.html'));
+    } else {
+      req.session.username = email;
+      res.redirect('/dashboard');
+      //res.sendFile(path.join(__dirname, '../', 'views', 'dashboard.html'));
+    }
+  });
+
+});
+
+
 router.post('/registerUser', function(req, res) {
 
   console.log("IN ROUTER.POST.registerUser");
@@ -380,11 +408,13 @@ router.post('/getuserinfo', function(req, res) {
       console.log(data.email);
       req.session.userInfo = data;
       res.json({
+        password : data.password,
         gender : data.gender,
-        dob : data.DOB,
+        age : data.age,
         origin : data.origin,
         looking_for : data.looking_for,
-        fam_friend_ids : data.fam_friend_ids
+        fam_friend_ids : data.fam_friend_ids,
+        img_ids : data.img_ids
       });
     }
   });

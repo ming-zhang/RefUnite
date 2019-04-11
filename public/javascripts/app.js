@@ -51,7 +51,7 @@ app.controller('createAccountController', function($scope, $http) {
   $scope.backToLogin = function() {
     // To check in the console if the variables are correctly storing the input:
     // console.log($scope.username, $scope.password);
-    window.location.href = "http://localhost:8081/"
+    window.location.href = "/"
   };
 
   $scope.finish = function() {
@@ -285,14 +285,61 @@ app.controller('profileController', function($scope, $http) {
       console.log(res);
     });
   };
+
+  $scope.editProfile = function() {
+    document.getElementById("profileNoEdit").setAttribute('style', 'display: none;');
+    document.getElementById("profileEdit").setAttribute('style', 'display: inline;');
+        window.scrollTo(0, 0);
+    console.log("MY PASSWORD: " + $scope.password);
+    console.log("MY GENDER: " + $scope.gender);
+  };
+
+  $scope.backToProfile = function() {
+    console.log("MY PASSWORD: " + $scope.password);
+    console.log("MY GENDER: " + $scope.gender);
+    window.location.href = "/profile";
+  };
+
+  $scope.updateProfile = function() {
+
+    $http({
+      url: '/updateUser',
+      method: "POST",
+      data: {
+        'username': $scope.sessionUsername,
+        'password': $scope.password,
+        'gender': $scope.gender,
+        'age': $scope.age,
+        'region': $scope.origin, 
+        'imageids': $scope.img_ids,
+      }
+    }).success(function(response) {
+      console.log('Success callback in app js');
+      window.location.href = '/dashboard';
+      
+      //$scope.sessionUsername = $scope.username
+      //console.log("$scope.sessionUsername: " + $scope.sessionUsername);
+
+    }).error(function(response) {
+      console.log("IN ERROR RESPONSE");
+      console.log(response);
+      
+
+      console.log('Error callback in app js');
+      console.log(response);
+    });
+    window.location.href = "/profile";
+  };
   
 
   //need to query the database by the username to get all the other functions
-  $scope.gender = '';
-  $scope.dob = '';
-  $scope.origin = '';
-  $scope.looking_for = '';
-  $scope.fam_friend_ids = '';
+  //$scope.password = '';
+  //$scope.gender = '';
+  //$scope.age = '';
+  //$scope.origin = '';
+  //$scope.looking_for = '';
+  //$scope.fam_friend_ids = '';
+  //$scope.img_ids = '';
   $scope.getUserInfo = function() {
     console.log("IN GET USER INFO: " + $scope.sessionUsername);
     //$scope.sessionUsername = "test@gmail.com";
@@ -305,11 +352,13 @@ app.controller('profileController', function($scope, $http) {
     }).success(function(res) {
       $scope.userInfo = res;
       console.log("SUCCESS WOOHOO");
+      $scope.password = res.password;
       $scope.gender = res.gender;
-      $scope.dob = res.dob;
+      $scope.age = res.age;
       $scope.origin = res.origin;
       $scope.looking_for = res.looking_for;
       $scope.fam_friend_ids = res.fam_friend_ids;
+      $scope.img_ids = res.img_ids;
       //$scope.userInfo.email;
       //$scope.sessionUsername = res.username;
     }).error(function(res) {

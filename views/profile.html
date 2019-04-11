@@ -36,16 +36,77 @@
     <div class="container user-container">
       <div class="jumbotron">
         <div class="h5">USER PROFILE</div>
-        <h6> Display all info for current profile. Have an edit profile button. </h6>
+        <div id="profileNoEdit"> 
+          <h6> Display all info for current profile. Have an edit profile button. </h6>
+          <br>
+          <h6> Gender: {{gender}} </h6>
+          <h6> Age: {{age}} </h6>
+          <h6> Origin: {{origin}} </h6>
+          <h6> Looking For: {{looking_for[0]}} </h6>
+          <h6> Profile Images: {{ img_ids[0] }} </h6>
+        </div>
+        <button type="button" class="login-button" name="editProfile" ng-click="editProfile()" >Edit</button>
+
+        <div id="profileEdit" style="display: none">
+        <label> Password: <input type="password" class="input password" placeholder="Password" ng-model="password" /> </label>
+
+        <label>Gender:
+          <select name="gender" ng-model="gender">
+            <option value="Female">Female</option>
+            <option value="Male">Male</option>
+            <option value="Other">Other</option>
+          </select>
+        </label>
+        </br>
+        <label> Age: 
+          <select name="age" ng-model="age">
+            <option value="Under18">Under 18</option>
+            <option value="18-24">18-24</option>
+            <option value="25-34">25-34</option>
+            <option value="35-44">35-44</option>
+            <option value="45-54">45-54</option>
+            <option value="55-64">55-64</option>
+            <option value="65-74">65-74</option>
+            <option value="65+">65+</option>
+            <option value="Unknown">Unknown</option>
+          </select>
+        </label>
+        </br>
+        <label> Region of Origin: 
+          <select name="region" ng-model="origin">
+            <option value="Africa">Africa</option>
+            <option value="Asia">Asia</option>
+            <option value="Caribbean">Caribbean</option>
+            <option value="CentralAmerica">Central America</option>
+            <option value="Europe">Europe</option>
+            <option value="MiddleEast">Middle East</option>
+            <option value="NorthAmerica">North America</option>
+            <option value="Oceania">Oceania</option>
+            <option value="SouthAmerica">South America</option>
+            <option value="Unknown">Unknown</option>
+          </select>
+        </label>
+
+        <!--</br>
+        <input type="file" name="user-photo" file-model="myFile"/>
+        <button ng-click="uploadFile()">upload me</button>
+        </br>-->
+
         <br>
-        <h6> Gender: {{gender}} </h6>
-        <h6> DOB (YYYY/MM/DD): {{dob[1]}} / {{dob[2]}} / {{dob[0]}}  </h6>
-        <h6> Origin: {{origin}} </h6>
-        <h6> Looking For: {{looking_for[0]}} </h6>
+        <input type="file" class="filepond" name="filepond" multiple data-max-file-size="3MB" data-max-files="3">
+        <button type="button" class="login-button" name="Login" ng-click="backToProfile()" >Back</button>
+        <button type="button" class="login-button" name="Next" ng-click="updateProfile()" id="finish">Update Profile</button>
+
+        <br>
+        </div>
         <!-- Need to get all the information for the current profile -->
         <!-- Display the users -->
+        
+
       </div>
     </div>
+
+
 
 
 

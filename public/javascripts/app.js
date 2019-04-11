@@ -445,6 +445,7 @@ app.controller('familyController', function($scope, $http) {
       console.log(res);
     });
   };
+  $scope.getSessionUsername();
 
 });
 

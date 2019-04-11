@@ -136,6 +136,38 @@ var postUser = function(params, callback) {
     }
 };
 
+var doesUserExist = function(email, callback) {
+    if (hasInit) {
+        // check if new email exists
+        console.log("THIS IS THE EMAIL I'M LOOKING FOR: " + email);
+        users.scan().where('email').equals(email).exec(
+            function(err, data) {
+                if (err) {
+                    console.log(err);
+                    callback(err, null);
+                } else {
+                    console.log(data);
+                    var items = data.Items;
+                    
+                    var out;
+                    if (items.length == 0) {
+                        //good
+                        out = true;
+                    } else {
+                        out = false;
+                    }
+                    
+                    // send results
+                    callback(null, out);
+                }
+            });
+
+    } else {
+        console.log("Tables not yet initialized--call init first!");
+        callback("Table not yet initialized--call init first!", null);
+    }
+};
+
 // get the user info as a JSON object for a user
 var retrieveUser = function(email, callback) {
     if (hasInit) {
@@ -319,7 +351,8 @@ var kvs = {
     addFamFriendToUser: addFamFriendToUser,
     updateProfile: updateProfile,
     addImageToFamFriend: addImageToFamFriend,
-    getEmailOrLinkFromImageId: getEmailOrLinkFromImageId
+    getEmailOrLinkFromImageId: getEmailOrLinkFromImageId,
+    doesUserExist: doesUserExist
 }
 
 module.exports = kvs;

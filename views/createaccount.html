@@ -21,6 +21,7 @@
 
     <!-- "container login-container" -->
     <div class="container login-container" style="color: white; width:50%; border: solid 1px white">
+      <p id="emailRegistrationFailure" style="color: red; display: none;" > *Email is already associated with an account. </p>
       <label> Email: <input type="text" class="input username" placeholder="email@email" ng-model="emailaddr" /> </label>
       <label> Password: <input type="password" class="input password" placeholder="Password" ng-model="password" /> </label>
 
@@ -75,6 +76,7 @@
 
       <button type="button" class="login-button" name="Login" ng-click="backToLogin()" >Sign in instead</button>
       <button type="button" disabled class="login-button" name="Next" ng-click="finish()" id="finish">Finish</button>
+
     </div>
     
 

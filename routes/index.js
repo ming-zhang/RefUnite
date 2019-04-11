@@ -309,6 +309,7 @@ router.post('/checklogin', function(req, res) {
 });
 
 router.post('/registerUser', function(req, res) {
+
   console.log("IN ROUTER.POST.registerUser");
   var email = req.body.username;
   var password = req.body.password;
@@ -319,19 +320,60 @@ router.post('/registerUser', function(req, res) {
   var img_ids = req.body.imageids; 
   var fam_friend_ids = [];
 
-  //var loginResult = "INCOMPLETE";
-  db.addUser(email, password, gender, age, origin, looking_for, img_ids, fam_friend_ids, function(err, data) {
-    if (err) {
-      console.log('This registration is not going well');
-      if (err) console.log(err);
-      //res.redirect('/');
-      //res.sendFile(path.join(__dirname, '../', 'views', 'login.html'));
+  console.log(email);
+  console.log(password);
+  console.log(gender);
+
+
+  db.checkUserExist(email, function(outererror, outerdata) {
+    if (outererror) {
+      console.log(outererror);
     } else {
-      req.session.username = email;
-      res.redirect('/dashboard');
-      //res.sendFile(path.join(__dirname, '../', 'views', 'dashboard.html'));
+      if (outerdata === "true") {
+        console.log("OUTERDATA: " + outerdata);
+        db.addUser(email, password, gender, age, origin, looking_for, img_ids, fam_friend_ids, function(err, data) {
+        if (err) {
+          console.log('This registration is not going well');
+          if (err) console.log(err);
+          //res.redirect('/');
+          //res.sendFile(path.join(__dirname, '../', 'views', 'login.html'));
+        } else {
+          req.session.username = email;
+          res.redirect('/dashboard');
+          //res.sendFile(path.join(__dirname, '../', 'views', 'dashboard.html'));
+        }
+      });
+      } else {
+        console.log("OUTERDATA: " + outerdata);
+        console.log("user already exists");
+        res.status(505).send("505");
+
+      }
     }
   });
+
+  // db.getUser(email, function(outererror, outerdata) {
+  //   if (outererror) {
+  //     db.addUser(email, password, gender, age, origin, looking_for, img_ids, fam_friend_ids, function(err, data) {
+  //       if (err) {
+  //         console.log('This registration is not going well');
+  //         if (err) console.log(err);
+  //         //res.redirect('/');
+  //         //res.sendFile(path.join(__dirname, '../', 'views', 'login.html'));
+  //       } else {
+  //         req.session.username = email;
+  //         res.redirect('/dashboard');
+  //         //res.sendFile(path.join(__dirname, '../', 'views', 'dashboard.html'));
+  //       }
+  //     });
+  //   } else {
+  //     console.log("index.js EMAIL IS ALREADY TAKEN");
+  //     //res.redirect('/createAccount');
+  //   }
+  // });
+
+  //var loginResult = "INCOMPLETE";
+  
 
 });
 

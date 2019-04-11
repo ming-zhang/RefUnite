@@ -78,6 +78,16 @@ app.controller('createAccountController', function($scope, $http) {
       //console.log("$scope.sessionUsername: " + $scope.sessionUsername);
 
     }).error(function(response) {
+      console.log("IN ERROR RESPONSE");
+      console.log(response);
+      if (response === '505') {
+        console.log("IN THE STATUS CODE BLOCK");
+
+        document.getElementById("emailRegistrationFailure").setAttribute('style', 'color: red;');
+        window.scrollTo(0, 0);
+      }
+      
+
       console.log('Error callback in app js');
       console.log(response);
     });

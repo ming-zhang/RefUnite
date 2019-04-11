@@ -104,7 +104,11 @@ const getTrainingImages = (famFriendId) => {
       // Download each img into /pictures/faces folder
       var flag = true; 
       for (var i = 0; i < ids.length; i++) {
+
           var url = "https://s3.amazonaws.com/refunite-famfriend-images/" + ids[i] + ".jpg"
+          if (ids[i].includes(".jpg")) {
+            url = "https://s3.amazonaws.com/refunite-famfriend-images/" + ids[i];
+          }
           console.log(url); 
           var options = {
                   directory: './pictures/faces',

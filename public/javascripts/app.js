@@ -389,7 +389,7 @@ app.controller('familyController', function($scope, $http) {
       }
     }).success(function(res) {
       console.log("WORKED")
-
+      document.location.reload(true);
     }).error(function(res) {
       console.log('Error callback in app js');
       console.log(res);

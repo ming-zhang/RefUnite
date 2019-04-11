@@ -36,7 +36,7 @@
         <br>
         <div >
           <ul ng-repeat="x in famFriends">
-            <li><a class="famFriendLink" ng-click="recognizeImage(x.id)">{{x.name}}</a></li>
+            <li><a style="color: #0000EE" class="famFriendLink" ng-click="recognizeImage(x.id)"><u>{{x.name}}</u></a></li>
           </ul>
           <button class="p-3 mb-2 bg-primary text-white" type="button"id="recognize" class="btn btn-success"ng-click="getRecognize()" ng-style = "disableTagButton"
             style="width:100%;">

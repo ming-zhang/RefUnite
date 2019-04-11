@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html ng-app="angularjsNodejsTutorial">
 <html lang="en">
-
   <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -37,7 +36,7 @@
         <br>
         <div >
           <ul ng-repeat="x in famFriends">
-            <li><a class="famFriendLink" ng-click="recognizeImage(x.id)">{{x.name}}</a></li>
+            <li><a style="color: #0000EE" class="famFriendLink" ng-click="recognizeImage(x.id)"><u>{{x.name}}</u></a></li>
           </ul>
           <button class="p-3 mb-2 bg-primary text-white" type="button"id="recognize" class="btn btn-success"ng-click="getRecognize()" ng-style = "disableTagButton"
             style="width:100%;">
@@ -49,16 +48,28 @@
             <h5>{{ heading }}</h5>
             <div ng-repeat="x in ids" class="grid-square" style="margin: 15px;">
                 <!-- <a ng-href="/imageDetails/{{x}}"> -->
-                  <img ng-click="getFamFriendDetails(x)" ng-src="{{ imageURLs[x] }}" style="width: 200px; height: 300px;"/>
+                  <img id="matchImg" ng-click="getFamFriendDetails(x)" onerror="getUrl()" ng-src="{{ imageURLs[x] }}" style="width: 200px; height: 300px;"/>
                   <h4><span ng-bind="detailsList[x]"></span></h4>
                 <!-- </a> -->
                 <span class="caption" style="display: block; font-size: 14px">ID: {{ x }}</span>
+                <span class="caption" style="display: block; font-size: 14px">If there is no contact available, click <a href="https://familylinks.icrc.org/europe/en/Pages/search-persons.aspx" target="_blank">here</a> to go to Trace the Face and search by the ID above to reveal more information.</span>
             </div>
           </div>
         </div>
         
       </div>
     </div>
+
+    <script>
+    function getUrl() {
+      var el = document.getElementById("matchImg");
+      var url = el.getAttribute("ng-src");
+      url = url.replace("tracethefacetest", "refunite-user-images");
+      document.getElementById("matchImg").setAttribute("ng-src", null);
+      document.getElementById("matchImg").setAttribute("src", url);
+      console.log("new url " + url);
+    }
+    </script>
   
 
 

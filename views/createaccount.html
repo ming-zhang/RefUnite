@@ -116,7 +116,7 @@
             process: function(fieldName, file, metadata, load, error, progress, abort) {
                 console.log("hi we are in s3 upload"); 
                 s3.upload({
-                    Bucket: 'refunite-famfriend-images',
+                    Bucket: 'refunite-user-images',
                     Key: Date.now() + '_' + file.name,
                     Body: file,
                     ContentType: file.type,

@@ -79,6 +79,7 @@ router.get('/imageDetails/:id', function(req, res) {
       res.json({emailOrLink});
     }
   });
+    
 });
 
 router.get('/reference', function(req, res) {

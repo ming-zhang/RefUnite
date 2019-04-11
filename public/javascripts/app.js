@@ -125,6 +125,7 @@ app.service('fileUpload', ['$http', function ($http) {
 
 
 app.controller('dashboardController', function($scope, $http) {
+  $scope.detailsList = {}
   $scope.disableTagButton = {
     'visibility': 'hidden'
   }; 
@@ -145,6 +146,20 @@ app.controller('dashboardController', function($scope, $http) {
     });
   }; 
 
+  $scope.getFamFriendDetails = function(famFriendId) {
+    $http({
+      url: '/imageDetails/' + famFriendId,
+      method: "GET",
+    }).success(function(res) {
+      console.log("Fam Friends details GET working");
+      $scope.detailsList[famFriendId] = res.emailOrLink;
+      console.log($scope.famFriends); 
+    }).error(function(res) {
+      console.log('Error callback in fam friend details');
+      console.log(response);
+    });
+  }; 
+
   $scope.getRecognize = function() {
     $http({
       url: '/recognize',
@@ -157,7 +172,7 @@ app.controller('dashboardController', function($scope, $http) {
       });
       $scope.ids = uniqueImages;
       $scope.imageURLs = {};
-      $scope.heading = "We found matches with these images:";
+      $scope.heading = "We found matches with following images. Click on an image for contact information.";
       for (i in $scope.ids) {
         $scope.getImage = function() {
           myurl = 'https://s3.amazonaws.com/tracethefacetest/' + $scope.ids[i] + '.jpg';

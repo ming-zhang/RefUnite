@@ -49,9 +49,33 @@ var addUser = function(email, password, gender, age, origin, looking_for, img_id
 	});
 };
 
+var checkUserExist = function(email, callback) {
+	console.log("EMAIL FROM DB GETUSER FUNC") + email;
+	kvs.doesUserExist(email, function(err, info) {
+		console.log("INFO FROM DB GETUSER FUNC" + info);
+		if (err) {
+			console.log(err);
+			callback(err, null);
+		} else {
+			if (info) {
+				info = "true";
+			} else {
+				info = "false";
+			}
+			callback(null, info);
+
+			//user doesn't exist! so we can proceed!
+			//console.log("got user " + info.email)
+			
+		}
+	});
+}
+
 // get the info in the form of a JSON object for a user
 var getUser = function(email, callback) {
+	console.log("EMAIL FROM DB GETUSER FUNC") + email;
 	kvs.retrieveUser(email, function(err, info) {
+		console.log("INFO FROM DB GETUSER FUNC" + info);
 		if (err) {
 			console.log(err);
 			callback(err, null);
@@ -162,7 +186,8 @@ var database = {
 	checkLogin: checkLogin,
 	updateProfile: updateProfile,
 	addImageToFamFriend: addImageToFamFriend,
-	getEmailOrLinkFromImageId: getEmailOrLinkFromImageId
+	getEmailOrLinkFromImageId: getEmailOrLinkFromImageId,
+	checkUserExist: checkUserExist
 }
 
 module.exports = database;

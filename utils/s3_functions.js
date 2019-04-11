@@ -56,7 +56,6 @@ const testImages = () => {
               directory: './pictures/testing',
               filename: uniqueId + ".jpg"
             }
-            console.log("Whats up"); 
             //Folder for training data when we have upload functionality working
             download(url, options, function(err){
               if(err) throw err  
@@ -93,12 +92,10 @@ const testImages = () => {
 const getTrainingImages = (famFriendId) => {
   var params = {Bucket: 'refunite-famfriend-images'};
   // Get img_ids from dynamo for famfriend
-  console.log("My name is Reeham"); 
   dynamo.getFamFriend(famFriendId, function(err, info) {
     if (err) {
       console.log(err);
     } else {
-      console.log("got fam friend ")
       var ids = info.img_ids
 
       // Download each img into /pictures/faces folder
@@ -118,8 +115,6 @@ const getTrainingImages = (famFriendId) => {
 
           (function(i) {
  
-                console.log("This absolutely sucks- before if statement"); 
-                  console.log("idx2 " + i);
 
             download(url, options, function(err) {
               if(err) throw err
@@ -145,7 +140,6 @@ const getTrainingImages = (famFriendId) => {
                 }
 
                 
-                console.log("we are inside if statement"); 
                 flag = false; 
                 const dataPath = path.resolve('./pictures/faces');
                 //Our 'database' (add the back-end here)
@@ -184,7 +178,7 @@ const getTrainingImages = (famFriendId) => {
                   */
                   const modelState = recognizer.serialize();
                   fs.writeFileSync('model.json', JSON.stringify(modelState));  
-                  console.log("Model json is being updated");     
+                  console.log("Model.json is being updated");     
                           }
                         },5000);
                         });

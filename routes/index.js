@@ -58,7 +58,6 @@ router.get('/dashboard', function(req, res) {
 router.get('/recognizeId/:id', function(req, res) {
   // TRAIN DATA
   rimraf('./pictures/faces/*', function () { 
-      console.log("IN RECOGNIZE ID");
       console.log(req.params.id);
       currentFamId = req.params.id; 
 
@@ -123,7 +122,7 @@ router.post('/addImageToFamFriend', function(req, res) {
       console.log("addImageToFamFriend error");
       if (err) console.log(err);
     } else {
-      console.log("AaddImageToFamFriend");
+      console.log("AddImageToFamFriend");
     }
   });
 });
@@ -403,7 +402,7 @@ router.post('/getuserinfo', function(req, res) {
       console.log("Couldn't get userinfo");
       if (err) console.log(err);
     } else {
-      console.log("LOGGIN DATA: ");
+      console.log("LOGIN DATA: ");
       console.log(data.gender);
       console.log(data.email);
       req.session.userInfo = data;

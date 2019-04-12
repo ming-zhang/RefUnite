@@ -105,7 +105,7 @@
         <input style="visibility: hidden;" type="text" ng-model="famfriendid" id="famFriendId"/>
         <input style="visibility: hidden;" type="text" ng-model="imageids" id="imageIds"/>
         <br>
-        <button style="visibility: hidden;" class="p-3 mb-2 bg-primary text-white" type="button" name="addImageToFamFriend" ng-click="addImageToFamFriend()" id="addImageToFamFriend">Upload</button>
+        <button style="visibility: hidden;" class="p-3 mb-2 bg-primary text-white" type="button" name="addImageToFamFriend" ng-click="addImageToFamFriend()" id="addImageToFamFriend" onclick="hideAddButton()">Upload</button>
         <!-- <div id="uploadBtn"></div> -->
         
       </div>
@@ -155,8 +155,11 @@
             );
 
             document.getElementById("addImageToFamFriend").setAttribute("style", "");
+            $("#addFamFriend").hide();
+        }
 
-            
+        var hideAddButton = function() {
+
         }
 
         // set up s3 connection

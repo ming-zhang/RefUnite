@@ -402,6 +402,8 @@ app.controller('familyController', function($scope, $http) {
   };
 
   $scope.addFamFriend = function() {
+    console.log("SCOPE__________________________");
+    console.log($scope);
     $scope.getSessionUsername();
     $http({
       url: '/addFamFriend',
@@ -433,7 +435,7 @@ app.controller('familyController', function($scope, $http) {
       url: '/addImageToFamFriend',
       method: "POST",
       data: {
-        'id': $scope.famFriendId,
+        'id': $scope.addedFamFriendId,
         'img_ids': idsArr
         
       }

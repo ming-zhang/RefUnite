@@ -22,7 +22,7 @@
     <!-- "container login-container" -->
     <div class="container login-container" style="color: white; width:50%; border: solid 1px white">
       <p id="emailRegistrationFailure" style="color: red; display: none;" > *Email is already associated with an account. </p>
-      <label> Email: <input type="text" class="input username" placeholder="email@email" ng-model="emailaddr" /> </label>
+      <label> Email: <input type="text" class="input username" placeholder="email@email" ng-model="emailaddr" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"/> </label>
       <label> Password: <input type="password" class="input password" placeholder="Password" ng-model="password" /> </label>
 
         <label>Gender:

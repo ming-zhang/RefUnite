@@ -428,6 +428,7 @@ app.controller('familyController', function($scope, $http) {
   $scope.addImageToFamFriend = function() {
     console.log($scope.famFriendId);
     console.log($scope.imageIds);
+    window.location.href = "/dashboard";
     var idsStr = $scope.imageIds;
     var idsArr = idsStr.split(",");
     idsArr.shift();
@@ -441,7 +442,9 @@ app.controller('familyController', function($scope, $http) {
       }
     }).success(function(res) {
       console.log("WORKED")
-      document.location.reload(true);
+      // document.location.reload(true);
+      // res.redirect('/dashboard')
+
     }).error(function(res) {
       console.log('Error callback in app js');
       console.log(res);

@@ -46,13 +46,19 @@ router.get('/', function(req, res) {
 });
 
 router.get('/dashboard', function(req, res) {
-  // DOWNLOAD TRAINING DATA
-  //s3.getTrainingImages("1")
 
-  //Folder for testing data- Trace The Face Database 
-  s3.getImages(); 
+  if (req.session.username != null) {
+      // DOWNLOAD TRAINING DATA
+      //s3.getTrainingImages("1")
 
-  res.sendFile(path.join(__dirname, '../', 'views', 'dashboard.html'));
+      //Folder for testing data- Trace The Face Database 
+      s3.getImages(); 
+
+      res.sendFile(path.join(__dirname, '../', 'views', 'dashboard.html'));
+  } else {
+      res.redirect('/');
+  }
+
 });
 
 router.get('/recognizeId/:id', function(req, res) {
@@ -90,11 +96,19 @@ router.get('/reference', function(req, res) {
 });
 
 router.get('/profile', function(req, res) {
-  res.sendFile(path.join(__dirname, '../', 'views', 'profile.html'));
+  if (req.session.username != null) {
+    res.sendFile(path.join(__dirname, '../', 'views', 'profile.html'));
+  } else {
+      res.redirect('/');
+  }
 });
 
 router.get('/family', function(req, res) {
-  res.sendFile(path.join(__dirname, '../', 'views', 'family.html'));
+  if (req.session.username != null) {
+    res.sendFile(path.join(__dirname, '../', 'views', 'family.html'));
+  } else {
+      res.redirect('/');
+  }
 });
 
 //var addFamFriend = function(name, img_ids, relation, gender, age, origin, user_email, callback) {
